@@ -1,0 +1,485 @@
+{
+  "project_info": {
+    "project_number": "588976083194",
+    "firebase_url": "https://oshop-21421.firebaseio.com",
+    "project_id": "oshop-21421",
+    "storage_bucket": "oshop-21421.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:7b2efd0baf6e0037",
+        "android_client_info": {
+          "package_name": "com.example.firebasemessagingflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-cc6v12cthki57jdgpr29v5pvk2ghmpne.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.firebasemessagingflutter",
+            "certificate_hash": "e69e017c78d5882bf8129d96d291247109a847ee"
+          }
+        },
+        {
+          "client_id": "588976083194-rbenc5mbi4unrg9gmsr82kh38m8l7s3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.firebasemessagingflutter",
+            "certificate_hash": "09eddaa773cd0edcdc5385af024bec310bc0e16c"
+          }
+        },
+        {
+          "client_id": "588976083194-ogieph4s5c23b0srvm350lm05p4lqfvf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.firebasemessagingflutter",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:396453ad2e28c942",
+        "android_client_info": {
+          "package_name": "com.example.flutter_demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-hq1nnt5ib649u933k9irqsrutn6rhsp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_demo",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-gbt5ccviorbqmpacooprn1oeg6sfhi5k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_demo",
+            "certificate_hash": "d63dac54400920fe5c6ce3b4c379fad99086438a"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:40e630629e0b61af7b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.estore1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-50h33inba1njc404j1pto183cog6q9l2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore1",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-in0gnt4umqke9ubc1o23r1ecup180kt3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore1",
+            "certificate_hash": "fe6c1ed04193dd5280c816afc83c525a744b331f"
+          }
+        },
+        {
+          "client_id": "588976083194-k9rfsigjv8ig7rac1ufqgnd0122s4e4f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore1",
+            "certificate_hash": "b6b35202b876f0ce399cbd606433bf4578d5d21e"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:db2cecb18e3ad14a7b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.estore2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-eecqc1es31o8kl01r26mfk4clpfkpd0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore2",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:491a92f720882cae7b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.estore_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:1ed7d4a10ebcbfa07b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.estore_4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:4d29d741dd1c82367b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.estore_5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-1bnv64krn83pgm28oolrov2f8b7ueh48.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "6c93642bb2a1ab06ab08c65a034ca4cd3d5b9eac"
+          }
+        },
+        {
+          "client_id": "588976083194-enekh1gbh1i5brrsm2k06iv2lq9ar1pk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "f82f93c9da298ad3523e54628c03ff00e7691aac"
+          }
+        },
+        {
+          "client_id": "588976083194-2ehrdskbodtaq2h72prg8bit67lqudus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "10bc9191d8643d93de799f6bdcf62f6c66b3cfaf"
+          }
+        },
+        {
+          "client_id": "588976083194-lghcdpi6jjvbedn8mluk9qagterp7rci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-emp9ple604mabepm4nj45t0vhv0sa8s6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "927f8502166ebc5671a4aba35e5c92904f3163ee"
+          }
+        },
+        {
+          "client_id": "588976083194-de1shg9mnrfsrsqirrc7hnlor63kkjq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.estore_5",
+            "certificate_hash": "477f5ed014f16c7734920c0a2ebdc89b4b273884"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:5b07c76467bbdbf27b7943",
+        "android_client_info": {
+          "package_name": "com.kiranawala.kiranawala_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-6a8rvjbtqe0s334sflgju5h8f6aph0v4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.kiranawala_admin",
+            "certificate_hash": "969c447b3b667abd108ec474710e705cb9089a8c"
+          }
+        },
+        {
+          "client_id": "588976083194-0pgoqn0i3uk28jjn30e9hdh92s7mf0dc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.kiranawala_admin",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-o7ct7hqc87ianq89lola3rqbu5gpbre0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiranawala.kiranawala_admin",
+            "certificate_hash": "c6784786a847413984bd1ce24ffd437809ae5809"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:0ef5c273a132f9f1",
+        "android_client_info": {
+          "package_name": "com.theminisupermarket.theminisupermarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-b7odoruun835rtn37lek86utvdikoc7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theminisupermarket.theminisupermarket",
+            "certificate_hash": "ac169e4b4ffddb997a234e8e13631592acdd0b84"
+          }
+        },
+        {
+          "client_id": "588976083194-ilpql08980sn1c81hoe9stgd42n5a6dp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theminisupermarket.theminisupermarket",
+            "certificate_hash": "6c93642bb2a1ab06ab08c65a034ca4cd3d5b9eac"
+          }
+        },
+        {
+          "client_id": "588976083194-bfrmlmgfdffaqpk0lpf7ngakfhtp408g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theminisupermarket.theminisupermarket",
+            "certificate_hash": "969c447b3b667abd108ec474710e705cb9089a8c"
+          }
+        },
+        {
+          "client_id": "588976083194-f8osjpemqlj5qu9cdqj65bjcp2vvbu7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theminisupermarket.theminisupermarket",
+            "certificate_hash": "d63dac54400920fe5c6ce3b4c379fad99086438a"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588976083194:android:a61b661907bb86cf",
+        "android_client_info": {
+          "package_name": "in.kiranawala.store_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588976083194-pdd280giac69pc124qprbh9d1nclq79v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.kiranawala.store_manager",
+            "certificate_hash": "d63dac54400920fe5c6ce3b4c379fad99086438a"
+          }
+        },
+        {
+          "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOeYeozKKTfPTcyOQLZT9f-AWVyueZcPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588976083194-tml5h4j3ee9h6cdvjtlihd6m0q73cfmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
