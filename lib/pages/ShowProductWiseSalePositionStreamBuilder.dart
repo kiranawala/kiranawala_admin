@@ -814,6 +814,7 @@ Map<String, bool> retrievedDates = {};
 
                                 //   ],),
                                 // ),
+                                SizedBox(height:10.0),
             Expanded(
               flex:16,
               child: Container(

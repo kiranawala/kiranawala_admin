@@ -451,27 +451,27 @@ var _preferences = await SharedPreferences.getInstance();
         ),
       )  ,
 
-       Container(
-        decoration: BoxDecoration(border: Border.all(color:Colors.grey),borderRadius: BorderRadius.all(Radius.circular(5.0))),
-        width:MediaQuery.of(context).size.width,
-        child: FlatButton(
-          color: Colors.blue,
-          child: Text(
-            'Font Size Picker Test',
-            style:TextStyle(
-              fontFamily: 'Montserrat', 
-              fontSize: 14.0,
-              color:Colors.white,
-              ),
-            textAlign: TextAlign.left,
-            ),
-          onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return FontSizePickerTest();
-              }));                   
-          }
-        ),
-      )  ,
+      //  Container(
+      //   decoration: BoxDecoration(border: Border.all(color:Colors.grey),borderRadius: BorderRadius.all(Radius.circular(5.0))),
+      //   width:MediaQuery.of(context).size.width,
+      //   child: FlatButton(
+      //     color: Colors.blue,
+      //     child: Text(
+      //       'Font Size Picker Test',
+      //       style:TextStyle(
+      //         fontFamily: 'Montserrat', 
+      //         fontSize: 14.0,
+      //         color:Colors.white,
+      //         ),
+      //       textAlign: TextAlign.left,
+      //       ),
+      //     onPressed: (){
+      //         Navigator.push(context, MaterialPageRoute(builder: (context) {
+      //           return FontSizePickerTest();
+      //         }));                   
+      //     }
+      //   ),
+      // )  ,
       // Container(
       //   decoration: BoxDecoration(border: Border.all(color:Colors.grey),borderRadius: BorderRadius.all(Radius.circular(5.0))),
       //   width:MediaQuery.of(context).size.width,

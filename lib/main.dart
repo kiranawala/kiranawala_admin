@@ -76,6 +76,21 @@ var posTerminalStoreNameMapping = {
   'POS_1' : 'RV VILLAGE'
 };
 
+String selectedCategoryName;
+String selectedBrandName;
+
+class Brand {
+  const Brand(this.brandId, this.brandName);    
+    final String brandId;
+    final String brandName;    
+}
+
+class Category {
+  const Category(this.categoryId, this.categoryName);    
+    final String categoryId;
+    final String categoryName;    
+}
+
 class ProductDetails {
   String productName;
   String productID;
@@ -179,6 +194,25 @@ new Map<String, List<ProductDetails>>();
 Map<int, double> productSalePositionTillDateMap = new Map();
 Map<int, double> productInventoryTillDateMap = new Map();
 
+
+String barCodeToSearch = '';
+List<ProductStockPosition> barCodeSearchResults = new List();
+List<ProductStockPosition> stringSearchResults = new List();
+
+
+List<Category> categories = [];
+List<Category> categorySearchResults = [];
+Category selectedCategory;
+bool retrievingCategories = false;  
+
+List<Brand> brands = [];
+List<Brand> brandSearchResults = [];
+Category selectedCBrand;
+bool retrievingBrands = false;  
+
+ProductStockPosition productToUpdate;
+int productToUpdateIndex;
+ProductStockPosition productToDuplicate;
 
 
 void getProductInventoryTillDate()
