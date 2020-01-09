@@ -487,7 +487,7 @@ class _BarcodeScanState extends State<BarcodeScan> {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            Text('SEARCH BY NAME', style:TextStyle(fontSize:12.0),),
+                            Text('SEARCH NAME', style:TextStyle(fontSize:12.0),),
                           ],
                         )    
                     ],),

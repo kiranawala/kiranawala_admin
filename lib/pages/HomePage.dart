@@ -435,7 +435,7 @@ var _preferences = await SharedPreferences.getInstance();
         child: FlatButton(
           color: Colors.blue,
           child: Text(
-            'Barcode Scanner',
+            'PRODUCT MANAGER',
             style:TextStyle(
               fontFamily: 'Montserrat', 
               fontSize: 14.0,
