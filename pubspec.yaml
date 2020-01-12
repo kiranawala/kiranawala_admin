@@ -57,6 +57,7 @@ dependencies:
   queries:
   barcode_scan:
   sliding_up_panel:
+  audioplayers:
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +76,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - barcode-scan-success-long.mp3
+    - barcode-scan-success-short.mp3
     # - images/aashirvaad-atta.jpg
     # - images/aashirvaad-chilli-powder.png
     # - images/amul-butter.jpg
