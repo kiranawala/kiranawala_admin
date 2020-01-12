@@ -1,4 +1,4 @@
-import 'package:barcode_scan/barcode_scan.dart';
+// import 'package:barcode_scan/barcode_scan.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -826,102 +826,102 @@ class _BarcodeScanState extends State<BarcodeScan> {
   
   }
 
-  Future scan() async {
-    retrievingData = true;
-    searchResults = [];
-    try{
-      String barcode = await BarcodeScanner.scan();      
+  // Future scan() async {
+  //   retrievingData = true;
+  //   searchResults = [];
+  //   try{
+  //     String barcode = await BarcodeScanner.scan();      
 
-      scanStatus = barcode + ' is not in the system';
+  //     scanStatus = barcode + ' is not in the system';
 
-      FirebaseDatabase
-        .instance
-        .reference()
-        .child('stores')
-        .child('KIRANAWALA_STORE_2')
-        .child('products')
-        .orderByChild('barcode')
-        .equalTo(barcode.toLowerCase())
-        .once()
-        .then((DataSnapshot snapshot){
-          print(snapshot.value);
-          if(snapshot != null && snapshot.value != null)
-          {    
-           Map<dynamic, dynamic> productMap = snapshot.value;
-          productMap.forEach((code, product){
-            int productCode = int.parse(code.toString());
-            double productSalePositionTillDate = 0.0;
-            double productInventoryTillDate = 0.0;
-            double productStockPosition = 0.0;
+  //     FirebaseDatabase
+  //       .instance
+  //       .reference()
+  //       .child('stores')
+  //       .child('KIRANAWALA_STORE_2')
+  //       .child('products')
+  //       .orderByChild('barcode')
+  //       .equalTo(barcode.toLowerCase())
+  //       .once()
+  //       .then((DataSnapshot snapshot){
+  //         print(snapshot.value);
+  //         if(snapshot != null && snapshot.value != null)
+  //         {    
+  //          Map<dynamic, dynamic> productMap = snapshot.value;
+  //         productMap.forEach((code, product){
+  //           int productCode = int.parse(code.toString());
+  //           double productSalePositionTillDate = 0.0;
+  //           double productInventoryTillDate = 0.0;
+  //           double productStockPosition = 0.0;
 
-            if(productSalePositionTillDateMap[productCode] != null)
-            {
-              productSalePositionTillDate = double.parse(productSalePositionTillDateMap[productCode].toString());
-            }        
-            else
-            {
-              productSalePositionTillDateMap[productCode] = 0.0;
-            }
+  //           if(productSalePositionTillDateMap[productCode] != null)
+  //           {
+  //             productSalePositionTillDate = double.parse(productSalePositionTillDateMap[productCode].toString());
+  //           }        
+  //           else
+  //           {
+  //             productSalePositionTillDateMap[productCode] = 0.0;
+  //           }
 
-            if(productInventoryTillDateMap[productCode] != null)
-            {
-              productInventoryTillDate = double.parse(productInventoryTillDateMap[productCode].toString());
-            }
-            else
-            {
-              productInventoryTillDateMap[productCode] = 0.0;
-            }
+  //           if(productInventoryTillDateMap[productCode] != null)
+  //           {
+  //             productInventoryTillDate = double.parse(productInventoryTillDateMap[productCode].toString());
+  //           }
+  //           else
+  //           {
+  //             productInventoryTillDateMap[productCode] = 0.0;
+  //           }
 
-            productStockPosition = productInventoryTillDate - productSalePositionTillDate;
+  //           productStockPosition = productInventoryTillDate - productSalePositionTillDate;
 
-            searchResults.add(new ProductStockPosition(
-                                    product['title'].toString(), 
-                                    double.parse(product['price'].toString()), 
-                                    int.parse(product['productcode'].toString()), 
-                                    product['barcode'].toString(), 
-                                    product['imageurl'].toString(), 
-                                    product['category'].toString(), 
-                                    product['brand'].toString(),
-                                    productInventoryTillDate,                                              
-                                    productSalePositionTillDate,   
-                                    productStockPosition,                                           
-                                    // double.parse(product['stockposition'])
-                                  )
-                              );
-          });
-          searchResults.sort((a,b){
-                                    return a.productName.compareTo(b.productName);
-                                  });
-          print(searchResults);
-          print(searchResults.length);
-          setState(() {    
-            retrievingData = false;                                
-          });
-        }                                          
-      });
-    } on PlatformException catch(e){
-      if(e.code == BarcodeScanner.CameraAccessDenied)
-      {
-        setState(() {
-          barCodeToSearch = 'Camera Permission not granted';
-        });
-      }
-      else
-      {
-        setState(() {
-          barCodeToSearch = 'Unknown error: $e';  
-        });        
-      }
-    }
-    on FormatException {
-      setState(() {
-        barCodeToSearch = 'null (User returned using the back button before scanning anything. Result)';
-      });
-    }
-    catch(e){
-      setState(() {
-        barCodeToSearch = 'Unknown error:$e';
-      });
-    }
-  }
+  //           searchResults.add(new ProductStockPosition(
+  //                                   product['title'].toString(), 
+  //                                   double.parse(product['price'].toString()), 
+  //                                   int.parse(product['productcode'].toString()), 
+  //                                   product['barcode'].toString(), 
+  //                                   product['imageurl'].toString(), 
+  //                                   product['category'].toString(), 
+  //                                   product['brand'].toString(),
+  //                                   productInventoryTillDate,                                              
+  //                                   productSalePositionTillDate,   
+  //                                   productStockPosition,                                           
+  //                                   // double.parse(product['stockposition'])
+  //                                 )
+  //                             );
+  //         });
+  //         searchResults.sort((a,b){
+  //                                   return a.productName.compareTo(b.productName);
+  //                                 });
+  //         print(searchResults);
+  //         print(searchResults.length);
+  //         setState(() {    
+  //           retrievingData = false;                                
+  //         });
+  //       }                                          
+  //     });
+  //   } on PlatformException catch(e){
+  //     if(e.code == BarcodeScanner.CameraAccessDenied)
+  //     {
+  //       setState(() {
+  //         barCodeToSearch = 'Camera Permission not granted';
+  //       });
+  //     }
+  //     else
+  //     {
+  //       setState(() {
+  //         barCodeToSearch = 'Unknown error: $e';  
+  //       });        
+  //     }
+  //   }
+  //   on FormatException {
+  //     setState(() {
+  //       barCodeToSearch = 'null (User returned using the back button before scanning anything. Result)';
+  //     });
+  //   }
+  //   catch(e){
+  //     setState(() {
+  //       barCodeToSearch = 'Unknown error:$e';
+  //     });
+  //   }
+  // }
 }

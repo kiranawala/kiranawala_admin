@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kiranawala_admin/pages/CustomerMobileLogin.dart';
-import 'package:kiranawala_admin/pages/FontSizePickerTest.dart';
+import 'package:kiranawala_admin/pages/nila-point-of-sale.dart';
 import 'package:kiranawala_admin/pages/ShowTerminalWiseSalePositionStreamBuilder.dart';
 import 'package:kiranawala_admin/pages/showOrderCount.dart';
 import '../main.dart';
@@ -446,6 +446,27 @@ var _preferences = await SharedPreferences.getInstance();
           onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BarcodeScan();
+              }));                   
+          }
+        ),
+      )  ,
+            Container(
+        decoration: BoxDecoration(border: Border.all(color:Colors.grey),borderRadius: BorderRadius.all(Radius.circular(5.0))),
+        width:MediaQuery.of(context).size.width,
+        child: FlatButton(
+          color: Colors.blue,
+          child: Text(
+            'NILA Point-Of-Sale',
+            style:TextStyle(
+              fontFamily: 'Montserrat', 
+              fontSize: 14.0,
+              color:Colors.white,
+              ),
+            textAlign: TextAlign.left,
+            ),
+          onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return NilaPointOfSale();
               }));                   
           }
         ),
