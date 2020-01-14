@@ -58,6 +58,7 @@ dependencies:
   barcode_scan:
   sliding_up_panel:
   audioplayers:
+  flutter_open_whatsapp:
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
 import 'package:flutter/services.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 class CartEntry {
     int productCode;
@@ -88,6 +89,7 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
   bool processingBill = false;
   List<ProductStockPosition> barCodeSearchResults = [];
   List<dynamic> cartProducts = [];
+  String customerMobileNumber = '';
 
   String barCodeSearchMessage = '';
   double productStockPosition = 0.0;
@@ -418,7 +420,9 @@ Expanded(
                                       FlatButton(
                                         child: Text('PROCEED'),
                                         onPressed: () {
-                                          setState(() { retrievingData = true;  });
+
+                                          setState(() { retrievingData = true;  
+                                          });
                               
         barCodeSearchResults = [];
         if (barCodeToSearch.length == 0) 
@@ -446,8 +450,8 @@ Expanded(
                 if(productMap.length == 1)
                 {
                   productMap.forEach((code, product){
-                    double productSalePositionTillDate = 0.0;
-                    double productInventoryTillDate = 0.0;
+                    // double productSalePositionTillDate = 0.0;
+                    // double productInventoryTillDate = 0.0;
                     // double productStockPosition = 0.0;
 
                     productCount = productCount + 1;
@@ -588,6 +592,7 @@ Expanded(
                 }     
                 else
                 {
+                  Navigator.of(context).pop();
                   showDialog(
                           context: context,
                           builder: (context)
@@ -641,10 +646,10 @@ Expanded(
                                                             'productBilledQty':1,                                              
                                                             'productBillAmount':price,                                                                                                                    
                                                           });
-                                                              Navigator.of(context).pop();
-                                                              setState(() {
-                                                                
-                                                              });
+                                                        Navigator.of(context).pop();
+                                                        setState(() {
+                                                          
+                                                        });
                                         },
                                       ),
                                     ])
@@ -767,6 +772,27 @@ Expanded(
                       'billedProducts':cartProducts
                     };
 
+                      String billAsString = '';   
+
+                      String itemCountString = 'No. Of Items:';
+                      String productCountString = 'No. Of Products:';
+                      String totalBillString = 'Total Bill:';
+                                                             
+
+                      print(billAsString);
+                      billAsString = billAsString + itemCountString + '\t' + itemCount.toString().padLeft(6) + '\n';
+                      billAsString = billAsString + productCountString + '\t' + productCount.toString().padLeft(6) + '\n';
+                      billAsString = billAsString + totalBillString + '\t' + cartTotal.toString().padLeft(6) + '\n';
+                      billAsString = billAsString + 'Billed Products:' + '\n'; 
+                      // print(billAsString);
+                      cartProducts.forEach((product){    
+                        if(product['productName'].length > 16)                    
+                          billAsString = billAsString + product['productName'].toString().substring(0,16).toLowerCase() + '\t'+ product['productPrice'].toString().padLeft(6) + '\t' + product['productBilledQty'].toString().padLeft(6) +  '\t' + product['productBillAmount'].toString().padLeft(6) +"\n";
+                        else
+                          billAsString = billAsString + product['productName'].toString().toLowerCase().padLeft(16) + '\t'+ product['productPrice'].toString().padLeft(6) + '\t' + product['productBilledQty'].toString().padLeft(6) +  '\t' + product['productBillAmount'].toString().padLeft(6) +"\n";
+                      });
+
+
                     FirebaseDatabase
                       .instance
                       .reference()
@@ -828,6 +854,74 @@ Expanded(
                       .update({
                         'totalSale': updatedTotalSale
                         });
+
+                   
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return AlertDialog(
+                              title: Text(
+                                'SEND BILL',
+                                style:TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              content:
+                              Column(children: <Widget>[
+                                TextField(
+                                  autofocus: true,
+                                  onChanged: (value){
+                                    if(value.length != 10){
+                                      print('Mobile number must be 10 digits');
+                                    }
+                                    else
+                                    {
+                                      customerMobileNumber = value;
+                                    }
+                                  }
+                                ,)
+                              ],),
+                              actions: <Widget>[
+                                Row(
+                                   children: <Widget>[
+                                    FlatButton(
+                                      onPressed: (){
+                                           
+
+                                        Navigator.of(context).pop();
+                                        FlutterOpenWhatsapp.sendSingleMessage('91'+customerMobileNumber, billAsString);
+                                      },
+                                      child: Text(
+                                        'PROCEED',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      onPressed: (){
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'IGNORE',
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],                               
+                                )
+                              ],
+                            );
+                          }
+
+                        );
     //             String billHour = timeString.substring(0,2);
     //             String billMinutes = timeString.substring(2,4);
     //             String billSeconds = timeString. substring(4,6);  
