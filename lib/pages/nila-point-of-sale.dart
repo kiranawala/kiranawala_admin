@@ -6,6 +6,76 @@ import 'package:kiranawala_admin/main.dart';
 import 'package:flutter/services.dart';
 import 'package:audioplayers/audio_cache.dart';
 
+class CartEntry {
+    int productCode;
+    String productBarCode;
+    String productName;
+    double productPrice;
+    String productCategory;
+    String productBrand;
+    double productBilledQty;
+    double productBillAmount;
+
+    CartEntry(
+      int productcode, 
+      String productbarcode, 
+      String productname,
+      double productprice,
+      String productcategory,
+      String productbrand,
+      double productbilledqty,
+      double productbillamount ){
+        this.productCode = productcode;
+        this.productBarCode = productbarcode;
+        this.productName = productname;
+        this.productPrice = productprice;
+        this.productCategory = productcategory;
+        this.productBrand = productbrand;
+        this.productBilledQty = productbilledqty;
+        this.productBillAmount = productbillamount;
+    }
+}
+
+class InvoiceEntry {
+    String billID;
+    String billDate;
+    String billTime;
+    String storeID;
+    String posID;
+    int productCount;
+    double itemCount;
+    double billAmount;
+    List<CartEntry> billedProducts;
+    String paymentType;
+    String cardType;
+    InvoiceEntry(
+                String billID,
+                String billdate,
+                String billtime,
+                String storeid,
+                String posid,
+                int productcount,
+                double itemcount,
+                double billamount,
+                String paymentType,
+                String cardType,
+                List<CartEntry> billedProducts)
+                {
+                    this.billID = billID;
+                    this.billDate = billdate;
+                    this.billTime = billtime;
+                    this.storeID = storeid;
+                    this.posID = posid;
+                    this.productCount = productcount;
+                    this.itemCount = itemcount;
+                    this.billAmount = billamount;
+                    this.billedProducts = billedProducts;
+                    this.paymentType = paymentType;
+                    this.cardType = cardType;
+                }
+}
+
+
 class NilaPointOfSale extends StatefulWidget {
   @override
   _NilaPointOfSaleState createState() => _NilaPointOfSaleState();
@@ -15,8 +85,9 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
 
   String barCodeToSearch = '';
   bool retrievingData = false;
+  bool processingBill = false;
   List<ProductStockPosition> barCodeSearchResults = [];
-  List<ProductStockPosition> cartProducts = [];
+  List<dynamic> cartProducts = [];
 
   String barCodeSearchMessage = '';
   double productStockPosition = 0.0;
@@ -26,6 +97,14 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
   double itemCount = 0.0;
   String successSoundPath = "barcode-scan-success-short.mp3";
   double price = 0.0;
+
+  int productCode;
+  String productName;
+  double productPrice;
+  String productCategory;
+  String productBrand;
+  int productBilledQty;
+  double productBillAmount;
 
     Future scan() async {
     retrievingData = true;
@@ -71,19 +150,17 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
                     cartTotal = cartTotal + double.parse(product['price'].toString());
 
 
-                    cartProducts.add(new ProductStockPosition(
-                                            product['title'].toString(), 
-                                            double.parse(product['price'].toString()), 
-                                            int.parse(product['productcode'].toString()), 
-                                            product['barcode'].toString(), 
-                                            product['imageurl'].toString(), 
-                                            product['category'].toString(), 
-                                            product['brand'].toString(),
-                                            productInventoryTillDate,                                              
-                                            productSalePositionTillDate,                                              
-                                            double.parse(product['stockposition'].toString()), 
-                                          )
-                                      );
+                    cartProducts.add({
+                                      'productCode':int.parse(product['productcode'].toString()),
+                                      'productBarCode':product['barcode'].toString(),
+                                      'productName':product['title'].toString(), 
+                                      'productPrice':product['price'].toString(), 
+                                      'productCategory':product['category'].toString(), 
+                                      'productBrand':product['brand'].toString(),
+                                      'productBilledQty':"1",
+                                      'productBillAmount':product['price'].toString() 
+                                    }
+                                    );
                   });
                 barCodeSearchResults.sort((a,b){
                                           return a.productName.compareTo(b.productName);
@@ -164,19 +241,16 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
                                             productCount = productCount + 1;
                                             itemCount = itemCount + 1;
                                             cartTotal = cartTotal + barCodeSearchResults[index].productPrice;
-                                            cartProducts.add(ProductStockPosition(
-                                                                      barCodeSearchResults[index].productName.toString(), 
-                                                                      double.parse(barCodeSearchResults[index].productPrice.toString()), 
-                                                                      int.parse(barCodeSearchResults[index].productID.toString()), 
-                                                                      barCodeSearchResults[index].productBarCode, 
-                                                                      barCodeSearchResults[index].productImageURL.toString(), 
-                                                                      barCodeSearchResults[index].productCategory.toString(), 
-                                                                      barCodeSearchResults[index].productBrand.toString(),
-                                                                      0.0,                                              
-                                                                      0.0,                                              
-                                                                      0.0
-                                                                    ),
-                                                              );
+                                            cartProducts.add({
+                                                              'productCode': int.parse(barCodeSearchResults[index].productID.toString()), 
+                                                              'productBarCode': barCodeSearchResults[index].productBarCode, 
+                                                              'productName': barCodeSearchResults[index].productName.toString(), 
+                                                              'productPrice': barCodeSearchResults[index].productPrice.toString(),                                                                       
+                                                              'productCategory':barCodeSearchResults[index].productCategory.toString(), 
+                                                              'productBrand':barCodeSearchResults[index].productBrand.toString(),
+                                                              'productBilledQty':"1",
+                                                              'productBillAmount':barCodeSearchResults[index].productPrice.toString()
+                                                            });
                                                               Navigator.of(context).pop();
                                                               setState(() {
                                                                 
@@ -236,19 +310,16 @@ class _NilaPointOfSaleState extends State<NilaPointOfSale> {
                                           itemCount = itemCount + 1;
                                           cartTotal = cartTotal + price;
 
-                                          cartProducts.add(ProductStockPosition(
-                                                                      barCodeToSearch, 
-                                                                      price, 
-                                                                      int.parse(barCodeToSearch.toString()), 
-                                                                      barCodeToSearch, 
-                                                                      'dummy', 
-                                                                      'NOCATEGORY', 
-                                                                      'NOBRAND',
-                                                                      0.0,                                              
-                                                                      0.0,                                              
-                                                                      0.0
-                                                                    ),
-                                                              );
+                                          cartProducts.add({
+                                                            'productCode':barCodeToSearch, 
+                                                            'productBarCode':barCodeToSearch,
+                                                            'productName':barCodeToSearch,                                                                      
+                                                            'productPrice':price.toString(),                                                                       
+                                                            'productCategory':'NOCATEGORY', 
+                                                            'productBrand':'NOBRAND',
+                                                            'productBilledQty':"1",
+                                                            'productBillAmount':price.toString() 
+                                                          });
                                                               Navigator.of(context).pop();
                                                               setState(() {
                                                                 
@@ -384,19 +455,16 @@ Expanded(
                     cartTotal = cartTotal + double.parse(product['price'].toString());
 
 
-                    cartProducts.add(new ProductStockPosition(
-                                            product['title'].toString(), 
-                                            double.parse(product['price'].toString()), 
-                                            int.parse(product['productcode'].toString()), 
-                                            product['barcode'].toString(), 
-                                            product['imageurl'].toString(), 
-                                            product['category'].toString(), 
-                                            product['brand'].toString(),
-                                            productInventoryTillDate,                                              
-                                            productSalePositionTillDate,                                              
-                                            double.parse(product['stockposition'].toString()), 
-                                          )
-                                      );
+                    cartProducts.add({
+                                      'productCode':int.parse(product['productcode'].toString()), 
+                                      'productBarCode':product['barcode'].toString(), 
+                                      'productName':      product['title'].toString(), 
+                                      'productPrice':double.parse(product['price'].toString()), 
+                                      'productCategory':product['category'].toString(), 
+                                      'productBrand':product['brand'].toString(),
+                                      'productBilledQty':1,
+                                      'productBillAmount':double.parse(product['price'].toString()),                                             
+                                    });
                   });
                 barCodeSearchResults.sort((a,b){
                                           return a.productName.compareTo(b.productName);
@@ -478,19 +546,16 @@ Expanded(
                                             productCount = productCount + 1;
                                             itemCount = itemCount + 1;
                                             cartTotal = cartTotal + barCodeSearchResults[index].productPrice;
-                                            cartProducts.add(ProductStockPosition(
-                                                                      barCodeSearchResults[index].productName.toString(), 
-                                                                      double.parse(barCodeSearchResults[index].productPrice.toString()), 
-                                                                      int.parse(barCodeSearchResults[index].productID.toString()), 
-                                                                      barCodeSearchResults[index].productBarCode, 
-                                                                      barCodeSearchResults[index].productImageURL.toString(), 
-                                                                      barCodeSearchResults[index].productCategory.toString(), 
-                                                                      barCodeSearchResults[index].productBrand.toString(),
-                                                                      0.0,                                              
-                                                                      0.0,                                              
-                                                                      0.0
-                                                                    ),
-                                                              );
+                                            cartProducts.add({
+                                                              'productCode':int.parse(barCodeSearchResults[index].productID.toString()),       
+                                                              'productBarCode':barCodeSearchResults[index].productBarCode, 
+                                                              'productName':barCodeSearchResults[index].productName.toString(), 
+                                                              'productPrice':double.parse(barCodeSearchResults[index].productPrice.toString()),                                                                                                                                             
+                                                              'productCategory':barCodeSearchResults[index].productCategory.toString(), 
+                                                              'productBrand':barCodeSearchResults[index].productBrand.toString(),
+                                                              'productBilledQty':1,                                              
+                                                              'productBillAmount':double.parse(barCodeSearchResults[index].productPrice.toString()),
+                                                              });
                                                               Navigator.of(context).pop();
                                                               setState(() {
                                                                 
@@ -528,19 +593,35 @@ Expanded(
                           builder: (context)
                           {
                               return AlertDialog(
-                                  // title: Text('verifyOTP: OTP Verfication Status!!'),
+                                  title: Text('BARCODE NOT FOUND'),
                                   content:    
                                   Container(
                                     height: 20.0,
-                                    child:TextField(
-                                      autofocus: true,
-                                      onChanged: (value){
-                                        if(double.parse(value) > 0){
-                                          price = double.parse(value);
-                                        }
-                                      },
+                                    child:Column(
+                                      children:<Widget>[
+                                        Expanded(                                          
+                                          child: Text(
+                                            barCodeToSearch,
+                                            style:TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                             )
+                                            ),
+                                          ),
+                                        Expanded(
+                                          child: TextField(
+                                            autofocus: true,
+                                            onChanged: (value){
+                                              if(double.parse(value) > 0){
+                                                price = double.parse(value);
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ]
                                     )
-                                    ),                                      
+                                  ),                                      
                                   actions: <Widget>[
                                     Row(children: <Widget>[                                                             
                                       FlatButton(
@@ -550,19 +631,16 @@ Expanded(
                                           itemCount = itemCount + 1;
                                           cartTotal = cartTotal + price;
 
-                                          cartProducts.add(ProductStockPosition(
-                                                                      barCodeToSearch, 
-                                                                      price, 
-                                                                      int.parse(barCodeToSearch.toString()), 
-                                                                      barCodeToSearch, 
-                                                                      'dummy', 
-                                                                      'NOCATEGORY', 
-                                                                      'NOBRAND',
-                                                                      0.0,                                              
-                                                                      0.0,                                              
-                                                                      0.0
-                                                                    ),
-                                                              );
+                                          cartProducts.add({
+                                                            'productCode':int.parse(barCodeToSearch.toString()), 
+                                                            'productBarCode': barCodeToSearch, 
+                                                            'productName':barCodeToSearch,
+                                                            'productPrice':price,                                                                                                                                             
+                                                            'productCategory':'NOCATEGORY', 
+                                                            'productBrand':'NOBRAND',
+                                                            'productBilledQty':1,                                              
+                                                            'productBillAmount':price,                                                                                                                    
+                                                          });
                                                               Navigator.of(context).pop();
                                                               setState(() {
                                                                 
@@ -606,8 +684,8 @@ Expanded(
           itemBuilder: (BuildContext context, int index){
             return ListTile(
               leading:Text(index.toString()),
-              title:Text(cartProducts[index].productName),
-              trailing: Text(cartProducts[index].productPrice.toString()),
+              title:Text(cartProducts[index]['productName']),
+              trailing: Text(cartProducts[index]['productPrice'].toString()),
             );
           },
         ),
@@ -647,23 +725,12 @@ Expanded(
             Expanded(
              child: RaisedButton(
               child:Text('SAVE BILL'),
-              onPressed: (){
-                FirebaseDatabase
-                .instance
-                .reference()
-                .child('storeTerminals')
-                .child('POS_2')
-                .child('lastBillNumber')
-                .once()
-                .then((lastBillNumberSnapshot){
-                  if(lastBillNumberSnapshot != null && lastBillNumberSnapshot.value != null)
+              onPressed: (){         
+                if(!processingBill)
+                {
+                  if(cartProducts.length != 0)
                   {
-                    Map<dynamic, dynamic> lastBillNumberMap = lastBillNumberSnapshot.value;
-                    int lastBillNumber = lastBillNumberMap['lastBillNumber'];
-                    print(lastBillNumber);
-                    int currentBillNumber = lastBillNumber + 1;
-                    print(currentBillNumber);
-
+                    processingBill = true;       
                     DateTime now = DateTime.now();
                     String dateString  = DateFormat('yyyy-MM-dd').format(now);
                     selectedSaleStartDate = DateFormat('yyyy-MM-dd').format(now);
@@ -675,17 +742,92 @@ Expanded(
                     String billDate = billDay + billMonth + billYear;
                     print(billDate);
 
-    //                     this.dateString = new Date().toDateString();
-    // this.billMonth = this.dateString.slice(4,7);
-    // this.billDay = this.dateString.slice(8,10);
-    // this.billYear = this.dateString.slice(11,15);
-    // var billMonthNumber = month_names[this.billMonth.toUpperCase()];
-    // this.billDate = this.billDay+billMonthNumber+this.billYear;
+                    //                     this.dateString = new Date().toDateString();
+                    // this.billMonth = this.dateString.slice(4,7);
+                    // this.billDay = this.dateString.slice(8,10);
+                    // this.billYear = this.dateString.slice(11,15);
+                    // var billMonthNumber = month_names[this.billMonth.toUpperCase()];
+                    // this.billDate = this.billDay+billMonthNumber+this.billYear;
 
-                String billTime = DateFormat('HHmmss').format(DateTime.now()).toString();    
-                String posID = 'POS_2';
-                String billID = posID + '_' + billDate + '_' + billTime;
-                print(billID);
+                    String billTime = DateFormat('HHmmss').format(DateTime.now()).toString();    
+                    String posID = 'MPOS_2';
+                    String billID = posID + '_' + billDate + '_' + billTime;
+                    print(billID);
+                    var invoiceEntry = {
+                      'billID':billID,
+                      'billDate':billDate,
+                      'billTime':billTime,
+                      'storeID':'NILAS1',
+                      'posID':'MPOS_2',
+                      'productCount':productCount,
+                      'itemCount':itemCount,
+                      'billAmount':cartTotal,
+                      'paymentType':'CASH',
+                      'cardType':'CASH',
+                      'billedProducts':cartProducts
+                    };
+
+                    FirebaseDatabase
+                      .instance
+                      .reference()
+                      .child('storeTerminals')
+                      .child('MPOS_2')
+                      .child('sales')
+                      .child(billYear)
+                      .child(billMonth)
+                      .child(billDay)
+                      .child('bills')
+                      .child(billID)
+                      .update(invoiceEntry);
+                  // .update({
+                  //   'billAmount':cartTotal.toString(),
+                  //   'billDate':billDate,
+                  //   'billTime':billTime,
+                  //   'billID':billID,
+                  //   'posID':posID,
+                  //   'itemCount':itemCount.toString(),
+                  //   'productCount':productCount.toString(),
+                  //   'storeID':'NILAS_1',
+                  //   'cardType':'CASH',
+                  //   'paymentType':'CASH',
+                  //   'billedProducts':cartProducts
+                  // });
+
+                  FirebaseDatabase
+                  .instance
+                  .reference()
+                  .child('storeTerminals')
+                  .child('MPOS_2')
+                  .child('sales')
+                  .child(billYear)
+                  .child(billMonth)
+                  .child(billDay)
+                  .child('totalSale')
+                  .once()
+                  .then((snapshot){
+                    double totalSale = 0.0;
+                    if(snapshot != null && snapshot.value != null)
+                    {
+                      print(snapshot.value.toString());
+                      totalSale = double.parse(snapshot.value.toString());
+                      print('Total Sale Before:' + totalSale.toString());
+                    }
+                    
+                    double updatedTotalSale = totalSale + invoiceEntry['billAmount'];  
+                    print('Updated Sale:' + updatedTotalSale.toString());
+
+                    FirebaseDatabase
+                      .instance
+                      .reference()
+                      .child('storeTerminals')
+                      .child('MPOS_2')
+                      .child('sales')
+                      .child(billYear)
+                      .child(billMonth)
+                      .child(billDay)
+                      .update({
+                        'totalSale': updatedTotalSale
+                        });
     //             String billHour = timeString.substring(0,2);
     //             String billMinutes = timeString.substring(2,4);
     //             String billSeconds = timeString. substring(4,6);  
@@ -699,11 +841,18 @@ Expanded(
     // this.billTime = this.billHour+this.billMinute+this.billSecond;
 
     // this.posID = localStorage.getItem('firebasePOSId');
-    // this.billID = this.posID +'_'+this.billDate;
-
-
-                  }
+    // this.billID = this.posID +'_'+this.billDate;                  
                 });
+
+                cartProducts.clear();
+                cartTotal = 0.0;
+                itemCount = 0.0;
+                productCount = 0;
+                setState(() {
+                 processingBill = false; 
+                });
+                }
+                }
               },
               ),
             ),
