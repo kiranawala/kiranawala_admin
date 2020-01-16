@@ -169,6 +169,92 @@ class ProductStockPosition {
 }
 
 
+// class CarryBag {
+//   const CarryBag(this.size, this.price);    
+//     final String size;
+//     final double price;    
+// }
+
+// CarryBag selectedCarryBag;
+
+class CartEntry {
+    int productCode;
+    String productBarCode;
+    String productName;
+    double productPrice;
+    String productCategory;
+    String productBrand;
+    double productBilledQty;
+    double productBillAmount;
+
+    CartEntry(
+      int productcode, 
+      String productbarcode, 
+      String productname,
+      double productprice,
+      String productcategory,
+      String productbrand,
+      double productbilledqty,
+      double productbillamount ){
+        this.productCode = productcode;
+        this.productBarCode = productbarcode;
+        this.productName = productname;
+        this.productPrice = productprice;
+        this.productCategory = productcategory;
+        this.productBrand = productbrand;
+        this.productBilledQty = productbilledqty;
+        this.productBillAmount = productbillamount;
+    }
+}
+
+class InvoiceEntry {
+    String billID;
+    String billDate;
+    String billTime;
+    String storeID;
+    String posID;
+    int productCount;
+    double itemCount;
+    double billAmount;
+    List<CartEntry> billedProducts;
+    String paymentType;
+    String cardType;
+    InvoiceEntry(
+                String billID,
+                String billdate,
+                String billtime,
+                String storeid,
+                String posid,
+                int productcount,
+                double itemcount,
+                double billamount,
+                String paymentType,
+                String cardType,
+                List<CartEntry> billedProducts)
+                {
+                    this.billID = billID;
+                    this.billDate = billdate;
+                    this.billTime = billtime;
+                    this.storeID = storeid;
+                    this.posID = posid;
+                    this.productCount = productcount;
+                    this.itemCount = itemcount;
+                    this.billAmount = billamount;
+                    this.billedProducts = billedProducts;
+                    this.paymentType = paymentType;
+                    this.cardType = cardType;
+                }
+}
+
+Map<String, dynamic> invoiceEntry = {};
+List<dynamic> cartProducts = [];  
+bool processingBill = false;
+double cartTotal = 0.0;
+int productCount = 0;
+double itemCount = 0.0;
+
+
+
 Map<dynamic,dynamic> productSalePositionMap = {};
 List<String> productListForSelectedCategory = [];
 
@@ -499,11 +585,69 @@ void getProductSalePositionTillDate()
   }
 
 
+Map<dynamic, dynamic> carryBagMap = {};
+List<String> carryBags = [];
+String selectedCarryBag = '';
+bool carryBagRequested = false;
+
+
 
 void main(){
-
   getProductSalePositionTillDate();
   getProductInventoryTillDate();
+  carryBags.add('SMALL');
+  carryBags.add('MEDIUM');
+  carryBags.add('LARGE');
+  carryBags.add('XTRA-LARGE');
+
+  carryBagMap['SMALL'] =
+                {
+                    'productCode':272727911936, 
+                    'productBarCode': '2727279119360', 
+                    'productName':'CARRY BAG SMALL 1N',
+                    'productPrice':2.0,                                                                                                                                             
+                    'productCategory':'HOME', 
+                    'productBrand':'KIRANAWALA',
+                    'productBilledQty':1,                                              
+                    'productBillAmount':2.0,                                                                                                                    
+                  };
+  carryBagMap['MEDIUM'] =
+                {
+                    'productCode':272727911934, 
+                    'productBarCode': '2727279119346', 
+                    'productName':'CARRY BAG MEDIUM 1N',
+                    'productPrice':3.0,                                                                                                                                             
+                    'productCategory':'HOME', 
+                    'productBrand':'KIRANAWALA',
+                    'productBilledQty':1,                                              
+                    'productBillAmount':3.0,                                                                                                                    
+                  };
+  carryBagMap['LARGE'] =
+                  {
+                      'productCode':272727911933, 
+                      'productBarCode': '2727279119339', 
+                      'productName':'CARRY BAG LARGE 1N',
+                      'productPrice':4.0,                                                                                                                                             
+                      'productCategory':'HOME', 
+                      'productBrand':'KIRANAWALA',
+                      'productBilledQty':1,                                              
+                      'productBillAmount':4.0,                                                                                                                    
+                    };
+  carryBagMap['XTRA-LARGE'] =
+                    {
+                        'productCode':272727911935, 
+                        'productBarCode': '2727279119353', 
+                        'productName':'CARRY BAG XL 1N',
+                        'productPrice':5.0,                                                                                                                                             
+                        'productCategory':'HOME', 
+                        'productBrand':'KIRANAWALA',
+                        'productBilledQty':1,                                              
+                        'productBillAmount':5.0,                                                                                                                    
+                      };
+  //   new CarryBag('SMALL',1.0));
+  // carryBags.add(new CarryBag('MEDIUM',2.0));
+  // carryBags.add(new CarryBag('LARGE',3.0));
+  // carryBags.add(new CarryBag('XTRA-LARGE',4.0));
 
     categoryNameCategoryDetailsMap = {};
       homeCategoryNameCategoryDetailsMap = {}; 
