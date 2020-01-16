@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
-import 'package:kiranawala_admin/main.dart' as prefix0;
 
 import 'nila-point-of-sale.dart';
 
@@ -209,7 +208,8 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                         });
                   });
 
-                  cartProducts.clear();
+                  productCodeCartEntryMap.clear();
+                  cartEntries.clear();
                   cartTotal = 0.0;
                   itemCount = 0.0;
                   productCount = 0;
