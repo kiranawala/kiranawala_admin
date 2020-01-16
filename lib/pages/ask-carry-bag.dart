@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kiranawala_admin/pages/add-carry-bag.dart';
 
 import '../main.dart';
+import 'show-final-bill.dart';
 
 class AskCarryBag extends StatefulWidget {
   @override
@@ -86,6 +87,9 @@ class _AskCarryBagState extends State<AskCarryBag> {
                     onPressed: (){
                       carryBagRequested = false;
                       Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                          return ShowFinalBill();
+                      }));
                       },
                     ),
                 ),

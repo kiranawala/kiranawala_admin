@@ -207,6 +207,9 @@ class CartEntry {
     }
 }
 
+List<CartEntry> cartEntries = [];
+Map<int, CartEntry> productCodeCartEntryMap = {};
+
 class InvoiceEntry {
     String billID;
     String billDate;
@@ -247,7 +250,8 @@ class InvoiceEntry {
 }
 
 Map<String, dynamic> invoiceEntry = {};
-List<dynamic> cartProducts = [];  
+List<dynamic> cartProducts = []; 
+Map<int,dynamic> cartProductMap = {}; 
 bool processingBill = false;
 double cartTotal = 0.0;
 int productCount = 0;
