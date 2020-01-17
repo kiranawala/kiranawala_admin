@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 import 'show-final-bill.dart';
+import 'nila-point-of-sale.dart';
 
 class AddCarryBag extends StatefulWidget {
   @override
   _AddCarryBagState createState() => _AddCarryBagState();
 }
 
-class _AddCarryBagState extends State<AddCarryBag> {
-
-  // List<String> carryBags = [];
+class _AddCarryBagState extends State<AddCarryBag> {  
   String selectedCarryBag;
   bool carryBagSelected = false;
   @override
   void initState() {
-    super.initState();
-    // carryBags.add('SMALL');
-    // carryBags.add('MEDIUM');
-    // carryBags.add('LARGE');
-    // carryBags.add('XTRA-LARGE');
+    super.initState(); 
   }
    
   @override
@@ -75,31 +70,22 @@ class _AddCarryBagState extends State<AddCarryBag> {
               color: Colors.purpleAccent,
               onPressed: (){
                 if(carryBagSelected)
-                {
-                  print(invoiceEntry);
-                  print(selectedCarryBag);
-                  print(carryBagMap[selectedCarryBag]['productName']);  
-                  List<dynamic> billedProducts = invoiceEntry['billedProducts'];  
+                {                  
+                  addProductToCart(
+                    int.parse(carryBagMap[selectedCarryBag]['productCode'].toString()),
+                    carryBagMap[selectedCarryBag]['productBarCode'].toString(),
+                    carryBagMap[selectedCarryBag]['productName'].toString(),
+                    double.parse(carryBagMap[selectedCarryBag]['productPrice'].toString()),
+                    carryBagMap[selectedCarryBag]['productCategory'].toString(),
+                    carryBagMap[selectedCarryBag]['productBrand'].toString(),
+                    1,
+                    double.parse(carryBagMap[selectedCarryBag]['productPrice'].toString()),
+                  );
 
-                  itemCount = itemCount + 1;
-                  productCount = productCount + 1;
-                  cartTotal = cartTotal + double.parse(carryBagMap[selectedCarryBag]['productPrice'].toString());
-
-                  invoiceEntry['itemCount'] = itemCount;
-                  invoiceEntry['productCount'] = productCount;
-                  invoiceEntry['cartTotal'] = cartTotal;
-
-                  // print(billedProducts);
-                  billedProducts.add(carryBagMap[selectedCarryBag]);
-                  // print(billedProducts);
-                  invoiceEntry['billedProducts'] = billedProducts;
-                  print(invoiceEntry);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                  return ShowFinalBill();
-                }));
-                }
-
-              
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                    return ShowFinalBill();
+                  }));
+                }              
               },
               child:Text(
                 'PROCEED',
@@ -115,43 +101,6 @@ class _AddCarryBagState extends State<AddCarryBag> {
 
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon:Icon(Icons.arrow_forward),
-      //       title: Text(
-      //         'PROCEED'
-      //       )
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon:Icon(Icons.arrow_back),
-      //       title: Text(
-      //         'GO BACK'
-      //       )
-      //     ),
-      //   ],
-      //    onTap: (index) {
-      //       switch (index) {
-      //         case 0:
-      //           print(selectedCarryBag);
-      //           print(carryBagMap[selectedCarryBag]['productName']);  
-      //           print(invoiceEntry);  
-      //           // List<dynamic> x = invoiceEntry['billedProducts'];  
-      //           // print(x);
-      //           // x.add(carryBagMap[selectedCarryBag]);
-      //           // print(x);
-      //         break;
-      //         case 0:
-      //         break;
-      //         // Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //         //   return HomePageListViewSearch();
-      //         // }));
-      //       }
-      //     },
-       
-        
-      // ),
-        
     );
   }
 }

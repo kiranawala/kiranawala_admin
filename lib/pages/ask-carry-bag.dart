@@ -6,7 +6,7 @@ import 'show-final-bill.dart';
 
 class AskCarryBag extends StatefulWidget {
   @override
-  _AskCarryBagState createState() => _AskCarryBagState();
+  _AskCarryBagState createState() =>   _AskCarryBagState();
 }
 
 class _AskCarryBagState extends State<AskCarryBag> {

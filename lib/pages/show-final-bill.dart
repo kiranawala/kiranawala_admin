@@ -213,6 +213,7 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                   cartTotal = 0.0;
                   itemCount = 0.0;
                   productCount = 0;
+                  carryBagRequested = false;
 
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){

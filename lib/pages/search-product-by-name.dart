@@ -1,6 +1,9 @@
+import 'dart:ui' as prefix0;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiranawala_admin/main.dart';
+import 'package:kiranawala_admin/pages/nila-point-of-sale.dart';
 
 class SearchProductByName extends StatefulWidget {
   @override
@@ -53,11 +56,16 @@ class _SearchProductByNameState extends State<SearchProductByName> {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title:Text('SEARCH PRODUCT NAME'),
+          title:Text('SEARCH PRODUCT NAME' + itemCount.toString() + productCount.toString()),
           leading: new IconButton(
           icon: new Icon(
             Icons.arrow_back, color: Colors.orange),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: (){
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                return NilaPointOfSale();
+              }));
+            },
           ), 
           centerTitle: true,
         ),
@@ -77,8 +85,109 @@ class _SearchProductByNameState extends State<SearchProductByName> {
     else
       return Scaffold(
         appBar: AppBar(
-          title:Text('Code Scanner'),
-          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: new IconButton(
+          icon: new Icon(
+            Icons.arrow_back, color: Colors.orange),
+            onPressed: (){
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                return NilaPointOfSale();
+              }));
+            },
+          ), 
+          title:Text('PRODUCT SEARCH', 
+          
+          textAlign: TextAlign.left,
+           style:TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize:14.0,
+                  fontWeight:FontWeight.bold
+                )),
+          actions: <Widget>[           
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                    return NilaPointOfSale();
+                  }));
+                },
+                child: Container(
+                  color: Colors.amber,
+                  child: Row(
+                    children:<Widget>[ Padding(
+                      padding: const EdgeInsets.fromLTRB(2,8.0,2,0),
+                        child: Text(
+                          cartTotal.toString(),
+                          style:TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize:16.0,
+                            fontWeight:FontWeight.bold
+                          )
+                        ),
+                      ),
+                  
+          
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,8.0,2,0),
+                    child: Text(
+                      '(',
+                      style:TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize:16.0,
+                        fontWeight:FontWeight.bold
+                      )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,8.0,2,0),
+                    child: Text(
+                      productCount.toString(),
+                      style:TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize:16.0,
+                        fontWeight:FontWeight.bold
+                      )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                    child: Text('/',
+                     style:TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize:16.0,
+                        fontWeight:FontWeight.bold
+                      )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 8, 0, 0),
+                    child: Text(
+                      itemCount.toString(),
+                      style:TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize:16.0,
+                        fontWeight:FontWeight.bold
+                      )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,8.0,2,0),
+                    child: Text(
+                      ')',
+                      style:TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize:16.0,
+                        fontWeight:FontWeight.bold
+                      )
+                    ),
+                  ),
+                  ]
+        ),
+                ),
+              ),
+            )
+        ],
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -208,53 +317,111 @@ class _SearchProductByNameState extends State<SearchProductByName> {
                     itemCount: nameSearchResults.length,
                     itemBuilder: (BuildContext context, int index){
                       return 
-                        Container(   
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.all(Radius.circular(5.0))
-                          ),
-                          height: 400.0,
-                              child: Column(children: <Widget>[
-                                Expanded(
-                                  flex:16,                          
+                        GestureDetector(
+                          onTap: (){
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return new AlertDialog(
+                                  title: Text('SEARCH STRING'),
+                                  content: Container(
+                                    width: MediaQuery.of(context).size.width/2,
+                                    child: Column(
+                                      children: [                                       
+                                        Expanded(
+                                          flex:2,
+                                            child: Text(barcodeMessage,
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 12.0,
+                                                  color: Colors.blue)),
+                                        ),
+                                      ]
+                                    ),
+                                  ),
+                                  // contentPadding: EdgeInsets.all(10),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('GO BACK',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 12.0,
+                                              color: Colors.blue)),
+                                      onPressed: () {                           
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text('ADD TO CART'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        addProductToCart(
+                                          int.parse(nameSearchResults[index].productID.toString()), 
+                                          nameSearchResults[index].productBarCode.toString(), 
+                                          nameSearchResults[index].productName.toString(), 
+                                          double.parse(nameSearchResults[index].productPrice.toString()), 
+                                          productCategory, 
+                                          productBrand, 
+                                          1, 
+                                          double.parse(nameSearchResults[index].productPrice.toString())
+                                          );
+                                          setState(() {
+                                            
+                                          });
+                                      }
+                                    )
+                                  ]);
+                                });
+                          },
+                          child: Container(   
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueGrey),
+                              borderRadius: BorderRadius.all(Radius.circular(5.0))
+                            ),
+                            height: 400.0,
+                                child: Column(children: <Widget>[
+                                  Expanded(
+                                    flex:16,                          
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width:MediaQuery.of(context).size.width,
+                                        child:Image.network(nameSearchResults[index].productImageURL.toString(),
+                                              fit: BoxFit.contain,),
+                                      ),
+                                    ),
+                                  Expanded(
+                                    flex:4,
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      width:MediaQuery.of(context).size.width,
-                                      child:Image.network(nameSearchResults[index].productImageURL.toString(),
-                                            fit: BoxFit.contain,),
-                                    ),
+                                      child: Text(
+                                        nameSearchResults[index].productName.toString(),
+                                        textAlign: TextAlign.center,
+                                        style:TextStyle(
+                                          // backgroundColor: Colors.blue,
+                                          color:Colors.green,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0
+                                        )
+                                      ),
+                                    )
                                   ),
-                                Expanded(
-                                  flex:4,
-                                  child: Container(
-                                    child: Text(
-                                      nameSearchResults[index].productName.toString(),
-                                      textAlign: TextAlign.center,
-                                      style:TextStyle(
-                                        // backgroundColor: Colors.blue,
-                                        color:Colors.green,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0
-                                      )
+                                  Expanded(
+                                    flex:2,
+                                    child: Container(                           
+                                      child: Text(
+                                        'Rs.'+ nameSearchResults[index].productPrice.toString() +'/-',
+                                        style:TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0
+                                        )
+                                      ),
                                     ),
-                                  )
-                                ),
-                                Expanded(
-                                  flex:2,
-                                  child: Container(                           
-                                    child: Text(
-                                      'Rs.'+ nameSearchResults[index].productPrice.toString() +'/-',
-                                      style:TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0
-                                      )
-                                    ),
-                                  ),
-                                ),                                                               
-                              ])
-                          );
+                                  ),                                                               
+                                ])
+                            ),
+                        );
                   }
                 )
             ),
