@@ -324,17 +324,26 @@ class _SearchProductByNameState extends State<SearchProductByName> {
                               barrierDismissible: false,
                               builder: (BuildContext context) {
                                 return new AlertDialog(
-                                  title: Text('SEARCH STRING'),
+                                  // title: Text('SEARCH STRING'),
                                   content: Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    height:40.0,
                                     child: Column(
                                       children: [                                       
                                         Expanded(
                                           flex:2,
-                                            child: Text(barcodeMessage,
+                                            child: Text(nameSearchResults[index].productName.toString(),
+                                              maxLines: 2,
+                                              style: TextStyle(                                                  
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 16.0,
+                                                  color: Colors.blue)),
+                                        ),
+                                          Expanded(
+                                          flex:2,
+                                            child: Text(nameSearchResults[index].productPrice.toString(),
                                               style: TextStyle(
                                                   fontFamily: 'Montserrat',
-                                                  fontSize: 12.0,
+                                                  fontSize: 16.0,
                                                   color: Colors.blue)),
                                         ),
                                       ]
@@ -346,14 +355,18 @@ class _SearchProductByNameState extends State<SearchProductByName> {
                                       child: Text('GO BACK',
                                           style: TextStyle(
                                               fontFamily: 'Montserrat',
-                                              fontSize: 12.0,
+                                              fontSize: 16.0,
                                               color: Colors.blue)),
                                       onPressed: () {                           
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     FlatButton(
-                                      child: Text('ADD TO CART'),
+                                      child: Text('ADD TO CART',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 16.0,
+                                              color: Colors.blue)),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         addProductToCart(

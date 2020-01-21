@@ -123,11 +123,14 @@ class _ShowBillsForDateState extends State<ShowBillsForDate> {
               InkWell(
                 onTap:(){
                   selectedBillTime = bill['billTime'];
+                  selectedBillProductCount = int.parse(bill['productCount'].toString());
+                  selectedBillItemCount = double.parse(bill['itemCount'].toString());
+                  selectedBillAmount = double.parse(bill['billAmount'].toString());
                   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>
                       ShowBilledProducts()
                   ));
                 },
-                              child: Container(
+                child: Container(
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -154,7 +157,7 @@ class _ShowBillsForDateState extends State<ShowBillsForDate> {
                       child:Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:Text(
-                          bill['billAmount'],
+                          bill['billAmount'].toString(),
                           textAlign: TextAlign.right,
                         ),
                       ),
@@ -164,7 +167,7 @@ class _ShowBillsForDateState extends State<ShowBillsForDate> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:Text(
-                          bill['productCount'],
+                          bill['productCount'].toString(),
                           textAlign: TextAlign.right,
                           )
                         )                  
@@ -174,7 +177,7 @@ class _ShowBillsForDateState extends State<ShowBillsForDate> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:Text(
-                          bill['itemCount'],
+                          bill['itemCount'].toString(),
                           textAlign: TextAlign.right,
                           )
                         )                  

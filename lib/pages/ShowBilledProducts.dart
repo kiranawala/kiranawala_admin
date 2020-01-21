@@ -1,7 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kiranawala_admin/main.dart';
+import 'package:kiranawala_admin/main.dart' as prefix0;
 import 'package:kiranawala_admin/pages/showOrderCount.dart';
+
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 import 'ShowTerminalWiseSalePositionStreamBuilder.dart';
 
@@ -30,6 +33,10 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
     print(billId);
     billedProductWidgetList = [];
     billedProductList = [];
+    billAsString = '';
+    billAsString = billAsString + 'Final Bill:' + '\t' + selectedBillAmount.toString() + '\n';
+    billAsString = billAsString + 'No. Of Products:' + '\t' + selectedBillProductCount.toString() + '\n';
+    billAsString = billAsString + 'No. Of Items:' + '\t' + selectedBillItemCount.toString() + '\n';
     FirebaseDatabase
       .instance
       .reference()
@@ -50,11 +57,29 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
           print(snapshot.value.length);
           List<dynamic> billedProducts = snapshot.value;
           billedProducts.forEach((billedProduct){
+
             billedProductList.add({
               'name':billedProduct['productName'],
               'price':billedProduct['productPrice'],
               'qty':billedProduct['productBilledQty']
             });
+
+            // if(billedProduct['productName'].toString().length > 16 )
+            // {
+            // billAsString = billAsString 
+            //                   + billedProduct['productName'].substring(0,16) + '\t' 
+            //                   + billedProduct['productPrice'].toString() + '\t' 
+            //                   + billedProduct['productBilledQty'].toString() + '\t' 
+            //                   + billedProduct['productBillAmount'] + '\n';
+            // }
+            // else
+            // {
+              billAsString = billAsString 
+                              + billedProduct['productName'] + '\t' 
+                              + billedProduct['productPrice'].toString() + '\t' 
+                              + billedProduct['productBilledQty'].toString() + '\t' 
+                              + billedProduct['productBillAmount'] + '\n';
+            // }
           });
 
           print(billedProductList);
@@ -88,7 +113,7 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
                       child:Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:Text(
-                          billedProduct['price'],
+                          billedProduct['price'].toString(),
                           textAlign: TextAlign.right,
                         ),
                       ),
@@ -98,7 +123,7 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:Text(
-                          billedProduct['qty'],
+                          billedProduct['qty'].toString(),
                           textAlign: TextAlign.right,
                           )
                         )                  
@@ -120,6 +145,14 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
     return Scaffold(
         resizeToAvoidBottomPadding: true,
     appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: (){
+                FlutterOpenWhatsapp.sendSingleMessage("+919849494143", billAsString);
+              },
+            )
+          ],
           title: const Text(
             'Billed Products',
             style: TextStyle(

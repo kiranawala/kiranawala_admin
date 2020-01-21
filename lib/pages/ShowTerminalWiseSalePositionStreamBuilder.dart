@@ -184,7 +184,7 @@ class _ShowTerminalWiseSalePositionState extends State<ShowTerminalWiseSalePosit
                                   snapshot.data.snapshot.value != null) {
                                     // print(snapshot.data.snapshot.value);
                                     Map<dynamic,dynamic> map = snapshot.data.snapshot.value;
-                                    if(map.containsKey('totalSale') && map.containsKey('totalWalkins') && map.containsKey('totalSale'))
+                                    if(map.containsKey('totalSale') && map.containsKey('totalWalkins'))
                                     {
                                       // print(map['totalSale'].toString());
                                       // print(map['totalWalkins'].toString());

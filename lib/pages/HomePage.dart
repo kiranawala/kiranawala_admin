@@ -539,14 +539,23 @@ var _preferences = await SharedPreferences.getInstance();
     else
     {
       return Container(
-        color:Colors.white,
-        alignment: Alignment.center,
-        child: Text(
-          'Not Authorized. Contact Your Admin',
-          style:TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 14.0,
-            color:Colors.blue)),
+        color: Colors.white,
+        child: Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                flex:2,
+                child: new CircularProgressIndicator()
+              ),
+              SizedBox(width:10.0),
+              Expanded(
+                flex:12,
+                child: Text("Checking Admin Status...")
+              ),
+            ],
+          ),
+        ),
       );
     }
   }

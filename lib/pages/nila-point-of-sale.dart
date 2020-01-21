@@ -5,6 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
 import 'package:flutter/services.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:kiranawala_admin/main.dart' as prefix0;
+import 'package:kiranawala_admin/pages/bill-product-no-barcode.dart';
+import 'package:kiranawala_admin/pages/change-product-quantity.dart';
 import 'package:kiranawala_admin/pages/search-product-by-name.dart';
 
 import 'ask-carry-bag.dart';
@@ -318,7 +321,7 @@ Expanded(
                     color: Colors.white,
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.0
+                    fontSize: 10.0
                    )
                   ),
                   onPressed: scan        
@@ -335,7 +338,7 @@ Expanded(
                     color: Colors.white,
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.0
+                    fontSize: 10.0
                    )
                    ),
                 onPressed: (){
@@ -576,7 +579,7 @@ Expanded(
                     color: Colors.white,
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.0
+                    fontSize: 10.0
                    )),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -585,72 +588,108 @@ Expanded(
                   }));
                 }),
             )),              
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: FlatButton(                  
+                  color:Colors.blue,
+                  child:Text(
+                    'No Barcode',
+                    style:TextStyle(
+                      color:Colors.white,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10.0
+                    )
+                  ),
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                      return BillProductNoBarCode();
+                    }));
+                  },
+                ),
+              )
+            )
           ],          
         )      
       ),
       Expanded(
         flex:20,
         child: ListView.builder(
-          itemCount: cartEntries.length,
+          itemCount: cartProducts.length,
           itemBuilder: (BuildContext context, int index){
-            return Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(                
-                decoration: BoxDecoration(
-                  border: Border.all(color:Colors.grey),                  
-                  ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex:2,
-                      child: Text(
-                        (index + 1).toString()
-                        )
-                      ),
-                    Expanded(
-                      flex:8,
-                      child: Text(
-                        cartEntries[index].productName,
-                        style:TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+            return GestureDetector(
+              onTap: (){
+                print(cartProducts);
+                cartProductCodeToUpdate = cartProducts[index]['productCode'];
+                cartProductToUpdate = productCodeCartEntryMap[cartProductCodeToUpdate];
+                print(prefix0.cartProductCodeToUpdate);
+                print(prefix0.cartProductToUpdate);
+                 Navigator.of(context).pop();                                
+                                Navigator.of(context).push(MaterialPageRoute(builder:(BuildContext context){
+                                  return ChangeBilledProductQty();
+                                }));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Container(                
+                  decoration: BoxDecoration(
+                    border: Border.all(color:Colors.grey),                  
+                    ),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex:2,
+                        child: Text(
+                          (index + 1).toString()
+                          )
+                        ),
+                      Expanded(
+                        flex:8,
+                        child: Text(
+                          cartProducts[index]['productName'],
+                          style:TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                      Expanded(
+                        flex:3,
+                        child: Text(
+                          cartProducts[index]['productPrice'].toString(),
+                          textAlign: TextAlign.right,
+                          style:TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
-                      ),
-                    Expanded(
-                      flex:3,
-                      child: Text(
-                        cartEntries[index].productPrice.toString(),
-                        textAlign: TextAlign.right,
-                        style:TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+                          )
                         ),
-                        )
-                      ),
-                    Expanded(
-                      flex:2,
-                      child: Text(
-                        cartEntries[index].productBilledQty.toString(),
-                        textAlign: TextAlign.right,
-                        style:TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        flex:2,
+                        child: Text(
+                          cartProducts[index]['productBilledQty'].toString(),
+                          textAlign: TextAlign.right,
+                          style:TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          )
                         ),
+                      Expanded(
+                        flex:3,
+                        child: Text(
+                          cartProducts[index]['productBillAmount'].toString(),
+                          textAlign: TextAlign.right,
+                          style:TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          )
                         )
-                      ),
-                    Expanded(
-                      flex:3,
-                      child: Text(
-                        cartEntries[index].productBillAmount.toString(),
-                        textAlign: TextAlign.right,
-                        style:TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        )
-                      )
-                  ],              
+                    ],              
+                  ),
                 ),
               ),
             );
@@ -735,7 +774,7 @@ Expanded(
               onPressed: (){         
                 if(!processingBill)
                 {
-                  if(cartEntries.length != 0)
+                  if(cartProducts.length != 0)
                   {
                     processingBill = true;       
                    
@@ -798,6 +837,61 @@ Expanded(
      
 }
 
+void removeProductFromCart(int productCode)
+{
+  
+  Map<String, dynamic> cartProduct = productCodeCartEntryMap[productCode];   
+  itemCount = itemCount - cartProduct['productBilledQty'];
+  cartTotal = cartTotal - cartProduct['productBillAmount'];
+  productCount = productCount - 1;      
+  productCodeCartEntryMap.remove(productCode);
+
+  cartProducts = [];
+  productCodeCartEntryMap.forEach((code, entry){
+      cartProducts.add({
+                          'productCode':entry['productCode'], 
+                          'productBarCode': entry['productBarCode'],
+                          'productName':entry['productName'],
+                          'productPrice':entry['productPrice'],                                                                                                                                             
+                          'productCategory':entry['productCategory'], 
+                          'productBrand':entry['productBrand'],
+                          'productBilledQty':entry['productBilledQty'],                                              
+                          'productBillAmount':entry['productBillAmount'],                                                                                                                    
+                        });
+
+  });
+  invoiceEntry['billedProducts'] = cartProducts;
+}
+
+void updateProductInCart()
+{
+  if(cartProductToUpdate['productBilledQty'] == 0)
+    removeProductFromCart(cartProductCodeToUpdate);
+  else
+  {
+    Map<String, dynamic> cartEntryBefore = productCodeCartEntryMap[cartProductCodeToUpdate];
+    Map<String, dynamic> cartEntryAfter = cartProductToUpdate;
+
+    itemCount = itemCount - cartEntryBefore['productBilledQty'] + cartEntryAfter['productBilledQty'];
+    cartTotal = cartTotal - cartEntryBefore['productBillAmount'] + cartEntryAfter['productBillAmount'];
+  }
+  cartProducts = [];
+  productCodeCartEntryMap.forEach((code, entry){
+      cartProducts.add({
+                          'productCode':entry['productCode'], 
+                          'productBarCode': entry['productBarCode'],
+                          'productName':entry['productName'],
+                          'productPrice':entry['productPrice'],                                                                                                                                             
+                          'productCategory':entry['productCategory'], 
+                          'productBrand':entry['productBrand'],
+                          'productBilledQty':entry['productBilledQty'],                                              
+                          'productBillAmount':entry['productBillAmount'],                                                                                                                    
+                        });
+
+  });
+  invoiceEntry['billedProducts'] = cartProducts;
+}
+
 void addProductToCart(
                         int productCode, 
                         String productBarCode, 
@@ -811,55 +905,75 @@ void addProductToCart(
   {
     if(productCodeCartEntryMap.containsKey(productCode))
     {
-      CartEntry cartEntry = productCodeCartEntryMap[productCode];
-      cartEntry.productBilledQty = cartEntry.productBilledQty + 1;
-      cartEntry.productBillAmount = cartEntry.productBillAmount + cartEntry.productPrice;
+      Map<String, dynamic> cartProduct = productCodeCartEntryMap[productCode];
+      cartProduct['productBilledQty'] = cartProduct['productBilledQty'] + 1;
+      cartProduct['productBillAmount'] = cartProduct['productBillAmount'] + cartProduct['productPrice'];
 
-      productCodeCartEntryMap[productCode] = cartEntry;
+      productCodeCartEntryMap[productCode] = cartProduct;
       itemCount = itemCount + 1;
       cartTotal = cartTotal + productPrice;
-
     }
     else
     {
-      CartEntry cartEntry = new CartEntry(
-                                  productCode,
-                                  productBarCode,
-                                  productName,
-                                  productPrice,
-                                  productCategory,
-                                  productBrand,
-                                  productBilledQty,
-                                  productBillAmount
-                                  );
-      productCodeCartEntryMap[productCode] = cartEntry;
+      // CartEntry cartEntry = new CartEntry(
+      //                             productCode,
+      //                             productBarCode,
+      //                             productName,
+      //                             productPrice,
+      //                             productCategory,
+      //                             productBrand,
+      //                             productBilledQty,
+      //                             productBillAmount
+      //                             );
+      // productCodeCartEntryMap[productCode] = cartEntry;
       productCount = productCount + 1;
       itemCount = itemCount + 1;
       cartTotal = cartTotal + productPrice;
+      cartProducts.add({
+                          'productCode':productCode, 
+                          'productBarCode': productBarCode,
+                          'productName':productName,
+                          'productPrice':productPrice,                                                                                                                                             
+                          'productCategory':productCategory, 
+                          'productBrand':productBrand,
+                          'productBilledQty':productBilledQty,                                              
+                          'productBillAmount':productBillAmount,                                                                                                                    
+                        });
 
-      cartEntries.clear();
-      productCodeCartEntryMap.forEach((code, entry){
-        cartEntries.add(entry);
-      });
-
-      // cartProducts.add({
-      //                     'productCode':productCode, 
-      //                     'productBarCode': productBarCode,
-      //                     'productName':productName,
-      //                     'productPrice':productPrice,                                                                                                                                             
-      //                     'productCategory':productCategory, 
-      //                     'productBrand':productBrand,
-      //                     'productBilledQty':productBilledQty,                                              
-      //                     'productBillAmount':productBillAmount,                                                                                                                    
-      //                   });
-
+      productCodeCartEntryMap[productCode] = {
+                          'productCode':productCode, 
+                          'productBarCode': productBarCode,
+                          'productName':productName,
+                          'productPrice':productPrice,                                                                                                                                             
+                          'productCategory':productCategory, 
+                          'productBrand':productBrand,
+                          'productBilledQty':productBilledQty,                                              
+                          'productBillAmount':productBillAmount,                                                                                                                    
+                        };
   }
+
+ cartProducts = [];
+  productCodeCartEntryMap.forEach((code, entry){
+      cartProducts.add({
+                          'productCode':entry['productCode'], 
+                          'productBarCode': entry['productBarCode'],
+                          'productName':entry['productName'],
+                          'productPrice':entry['productPrice'],                                                                                                                                             
+                          'productCategory':entry['productCategory'], 
+                          'productBrand':entry['productBrand'],
+                          'productBilledQty':entry['productBilledQty'],                                              
+                          'productBillAmount':entry['productBillAmount'],                                                                                                                    
+                        });
+
+  });
+  invoiceEntry['billedProducts'] = cartProducts;
+  print(invoiceEntry);
   }
 
   void clearCart()
   {
       productCodeCartEntryMap.clear();
-      cartEntries.clear();
+      cartProducts.clear();
       cartTotal = 0.0;
       itemCount = 0.0;
       productCount = 0;      

@@ -2,8 +2,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/pages/HomePage.dart';
-import 'package:kiranawala_admin/pages/ShowCategoryWiseSalePositionStreamBuilder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'pages/show-home-page.dart';
 
 
 bool otpAuthenticated = false;
@@ -58,6 +59,9 @@ String day = '';
 String selectedOrderDate = '';
 String selectedPOSTerminal = '';
 String selectedBillTime = '';
+int selectedBillProductCount = 0;
+double selectedBillItemCount = 0.0;
+double selectedBillAmount = 0.0;
 String selectedSaleDate = '';
 String selectedSaleStartDate = '';
 String selectedSaleEndDate = '';
@@ -73,7 +77,8 @@ String selectedTerminal = '';
 var posTerminalStoreNameMapping = {
   'POS_2' : 'S-MART III',
   'POS_4' : 'S-MART I',
-  'POS_1' : 'RV VILLAGE'
+  'POS_1' : 'RV VILLAGE',
+  'MPOS_2': 'MOBILE POS'
 };
 
 String selectedCategoryName;
@@ -208,7 +213,13 @@ class CartEntry {
 }
 
 List<CartEntry> cartEntries = [];
-Map<int, CartEntry> productCodeCartEntryMap = {};
+Map<int, Map<String,dynamic>> productCodeCartEntryMap = {};
+int cartProductCodeToUpdate;
+Map<String, dynamic> cartProductToUpdate = {};
+String billAsString = '';
+
+
+bool isAdmin = false;
 
 class InvoiceEntry {
     String billID;
@@ -250,7 +261,7 @@ class InvoiceEntry {
 }
 
 Map<String, dynamic> invoiceEntry = {};
-List<dynamic> cartProducts = []; 
+List<Map<String,dynamic>> cartProducts = []; 
 Map<int,dynamic> cartProductMap = {}; 
 bool processingBill = false;
 double cartTotal = 0.0;
@@ -319,8 +330,8 @@ void getProductInventoryTillDate()
             Map<dynamic, dynamic> values = snapshot.value;
             if (snapshot.value != null) {
               values.forEach((key,value){
-                print(key);
-                print(value);
+                // print(key);
+                // print(value);
                 productInventoryTillDateMap[int.parse(key.toString())] = double.parse(value['stockPosition'].toString());
               });
               print(productInventoryTillDateMap.length);
@@ -341,8 +352,8 @@ void getProductSalePositionTillDate()
             Map<dynamic, dynamic> values = snapshot.value;
             if (snapshot.value != null) {
               values.forEach((key,value){
-                print(key);
-                print(value);
+                // print(key);
+                // print(value);
                 productSalePositionTillDateMap[int.parse(key.toString())] = double.parse(value['salePosition'].toString());
               });
               print(productSalePositionTillDateMap.length);
@@ -350,13 +361,7 @@ void getProductSalePositionTillDate()
           });
 }
 
-
-
-
-
-
-
-  void getProductsForAllActiveCategories() {
+void getProductsForAllActiveCategories() {
     // print('getProductsForAllActiveCategories:HELLO');
     categoryNameCategoryDetailsMap.forEach((key, value) {
       // print(f['categoryName']);
@@ -699,13 +704,13 @@ void main(){
             // setState(() {
             //   homeCategoriesAvailable = true;
             // });
-            print(homeCategories.length.toString());
-            print(homeCategories);
+            // print(homeCategories.length.toString());
+            // print(homeCategories);
             homeCategories.sort((a, b) {
               return a['displayPosition'].compareTo(b['displayPosition']);
             });
-            print(homeCategories);
-            print(subCategories.length.toString());
+            // print(homeCategories);
+            // print(subCategories.length.toString());
             getProductsForAllActiveCategories();
           }
           // print('Number of HOME Categories:' + homeCategories.length.toString());
@@ -753,7 +758,7 @@ void main(){
    new MaterialApp(
      theme: ThemeData(fontFamily: 'Montserrat'),
     debugShowCheckedModeBanner: false,  
-    home: HomePage(),    
+    home: ShowHomePage(),    
   ));
 }
 

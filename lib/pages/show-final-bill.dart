@@ -2,8 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
-
 import 'nila-point-of-sale.dart';
+// import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 class ShowFinalBill extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class ShowFinalBill extends StatefulWidget {
 }
 
 class _ShowFinalBillState extends State<ShowFinalBill> {
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -137,6 +137,26 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                 color:Colors.lightBlue,
                 onPressed: (){
 
+                  String billAsString = '';
+                  billAsString = billAsString + '\n'; 
+                  billAsString = billAsString 
+                                  + 'TOTAL BILL: ' + '\t' 
+                                  + cartTotal.toString() + '\n';
+                  billAsString = billAsString 
+                                  + 'NO. OF PRODUCTS: ' + '\t' 
+                                  + productCount.toString() + '\n';
+                  billAsString = billAsString 
+                                  + 'NO. OF ITEMS: ' + '\t' 
+                                  + itemCount.toString() + '\n';                  
+                  cartProducts.forEach((cartProduct){
+                    billAsString = billAsString 
+                                    + cartProduct['productName'].toString().substring(0,16).toLowerCase() + '\t' 
+                                    + cartProduct['productPrice'].toString()+ '\t' 
+                                    + cartProduct['productBilledQty'].toString() + '\t' 
+                                    + cartProduct['productBillAmount'].toString() + '\n';
+                  });
+
+
                     DateTime now = DateTime.now();
                     String dateString  = DateFormat('yyyy-MM-dd').format(now);
                     selectedSaleStartDate = DateFormat('yyyy-MM-dd').format(now);
@@ -156,6 +176,28 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                     invoiceEntry['billID'] = billID;
                     invoiceEntry['billDate'] = billDate;
                     invoiceEntry['billTime'] = billTime;
+
+                    // List<Map<String, dynamic>> billedProducts = [];
+                    // cartEntries.forEach((entry){
+                    //   billedProducts.add({
+                    //     'productCode':entry.productCode,
+                    //     'productBarCode':entry.productBarCode,
+                    //     'productName':entry.productName,
+                    //     'productPrice':entry.productPrice,
+                    //     'productCategory':entry.productCategory,
+                    //     'productBrand':entry.productBrand,
+                    //     'productBilledQty':entry.productBilledQty,
+                    //     'productBillAmount':entry.productBillAmount
+                    //      });
+                    // });
+
+                    // invoiceEntry['billedProducts'] = billedProducts;
+
+                    print('InvoiceEntry:');
+                    print(invoiceEntry);
+
+                    print('BilledProducts:');
+                    print(invoiceEntry['billedProducts']);
                   
                     FirebaseDatabase
                       .instance
@@ -170,6 +212,7 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                       .child(billID)
                       .update(invoiceEntry);
 
+                  // FlutterOpenWhatsapp.sendSingleMessage("+919849494143", billAsString);
 
                   FirebaseDatabase
                   .instance
@@ -194,6 +237,8 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                     double updatedTotalSale = totalSale + invoiceEntry['billAmount'];  
                     print('Updated Sale:' + updatedTotalSale.toString());
 
+
+
                     FirebaseDatabase
                       .instance
                       .reference()
@@ -205,22 +250,57 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                       .child(billDay)
                       .update({
                         'totalSale': updatedTotalSale
-                        });
-                  });
+                        }).then((onValue){
+                          FirebaseDatabase
+                            .instance
+                            .reference()
+                            .child('storeTerminals')
+                            .child('MPOS_2')
+                            .child('sales')
+                            .child(billYear)
+                            .child(billMonth)
+                            .child(billDay)
+                            .child('totalWalkins')
+                            .once()
+                            .then((snapshot){
+                              double totalWalkins = 0.0;
+                              if(snapshot != null && snapshot.value != null)
+                              {
+                                print(snapshot.value.toString());
+                                totalWalkins = double.parse(snapshot.value.toString());
+                                print('Total Walkins Before:' + totalWalkins.toString());
+                              }
+                              
+                              double updatedTotalWalkins = totalWalkins + 1;  
+                              print('Updated Walkins:' + updatedTotalWalkins.toString());
 
-                  productCodeCartEntryMap.clear();
-                  cartEntries.clear();
+                              FirebaseDatabase
+                                .instance
+                                .reference()
+                                .child('storeTerminals')
+                                .child('MPOS_2')
+                                .child('sales')
+                                .child(billYear)
+                                .child(billMonth)
+                                .child(billDay)
+                                .update({
+                                  'totalWalkins': updatedTotalWalkins
+                                  });
+                            });
+                          });
+                        });                  
+
+                  productCodeCartEntryMap.clear();   
+                  cartProducts.clear();               
                   cartTotal = 0.0;
                   itemCount = 0.0;
                   productCount = 0;
-                  carryBagRequested = false;
-
+                  carryBagRequested = false;                  
+                  
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
                     return NilaPointOfSale();
-                  }));
-
-                          
+                  }));                          
                 },
                 child: Text(
                   'CONFIRM',
@@ -253,11 +333,12 @@ class _ShowFinalBillState extends State<ShowFinalBill> {
                     fontSize: 18.0,
                   )),),
             ),
-          )
+          ),                    
         ],
 
       )
       ),
     );
   }
+  
 }
