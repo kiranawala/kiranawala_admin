@@ -77,6 +77,7 @@ String selectedTerminal = '';
 var posTerminalStoreNameMapping = {
   'POS_2' : 'S-MART III',
   'POS_4' : 'S-MART I',
+  'POS_3' : 'S-MART II',
   'POS_1' : 'RV VILLAGE',
   'MPOS_2': 'MOBILE POS'
 };
@@ -217,6 +218,7 @@ Map<int, Map<String,dynamic>> productCodeCartEntryMap = {};
 int cartProductCodeToUpdate;
 Map<String, dynamic> cartProductToUpdate = {};
 String billAsString = '';
+String whatsappNumber = '';
 
 
 bool isAdmin = false;
@@ -602,8 +604,8 @@ bool carryBagRequested = false;
 
 
 void main(){
-  getProductSalePositionTillDate();
-  getProductInventoryTillDate();
+  // getProductSalePositionTillDate();
+  // getProductInventoryTillDate();
   carryBags.add('SMALL');
   carryBags.add('MEDIUM');
   carryBags.add('LARGE');
@@ -658,84 +660,84 @@ void main(){
   // carryBags.add(new CarryBag('LARGE',3.0));
   // carryBags.add(new CarryBag('XTRA-LARGE',4.0));
 
-    categoryNameCategoryDetailsMap = {};
-      homeCategoryNameCategoryDetailsMap = {}; 
-      FirebaseDatabase.instance
-            .reference()
-            .child('stores')
-            .child('KIRANAWALA_STORE_2')
-            .child('lastBillNumber')
-            .child('categoriesMaster')
-            .once()
-            .then((snapshot) {
-          if (snapshot != null && snapshot.value != null) {
-            // print(snapshot);
-            List<dynamic> categoryListSnapshot = snapshot.value;
-            // print(categorySnapshot);
-            categoryListSnapshot.forEach((categoryDetails) {
-              // print(categoryNode);
-              // print(categoryDetails);
-              // print(categoryDetails['categoryId']);
-              // print(categoryDetails['displayPosition']);
-              // print(categoryDetails['displayName']);
-              // print(categoryDetails['isActive']);
-              // print(categoryDetails['isParent']);
-              // print(categoryDetails['categoryImage']);
-              if (categoryDetails['categoryId'] != null &&
-                  categoryDetails['categoryImage'] != null &&
-                  categoryDetails['displayPosition'] != null &&
-                  categoryDetails['displayName'] != null &&
-                  categoryDetails['isActive'] != null &&
-                  categoryDetails['isParent'] != null) {
-                // print(categoryDetails);
-                if (categoryDetails['isActive'] == 'YES') {
-                  categoryNameCategoryDetailsMap[categoryDetails['categoryName']] =
-                      categoryDetails;
-                  if (categoryDetails['isParent'] == 'YES') {
-                    if (categoryDetails['subCategories'] != null) {
-                      homeCategories.add(categoryDetails);
-                      homeCategoryNameCategoryDetailsMap[
-                          categoryDetails['categoryName']] = categoryDetails;
-                    }
-                  }
-                }
-              }
-            });
-            // setState(() {
-            //   homeCategoriesAvailable = true;
-            // });
-            // print(homeCategories.length.toString());
-            // print(homeCategories);
-            homeCategories.sort((a, b) {
-              return a['displayPosition'].compareTo(b['displayPosition']);
-            });
-            // print(homeCategories);
-            // print(subCategories.length.toString());
-            getProductsForAllActiveCategories();
-          }
-          // print('Number of HOME Categories:' + homeCategories.length.toString());
-          // // print(homeCategories);
-          // print('Number of SUB Categories:' + subCategories.length.toString());
-          // // print(subCategories);
-        });
+    // categoryNameCategoryDetailsMap = {};
+    //   homeCategoryNameCategoryDetailsMap = {}; 
+    //   FirebaseDatabase.instance
+    //         .reference()
+    //         .child('stores')
+    //         .child('KIRANAWALA_STORE_2')
+    //         .child('lastBillNumber')
+    //         .child('categoriesMaster')
+    //         .once()
+    //         .then((snapshot) {
+    //       if (snapshot != null && snapshot.value != null) {
+    //         // print(snapshot);
+    //         List<dynamic> categoryListSnapshot = snapshot.value;
+    //         // print(categorySnapshot);
+    //         categoryListSnapshot.forEach((categoryDetails) {
+    //           // print(categoryNode);
+    //           // print(categoryDetails);
+    //           // print(categoryDetails['categoryId']);
+    //           // print(categoryDetails['displayPosition']);
+    //           // print(categoryDetails['displayName']);
+    //           // print(categoryDetails['isActive']);
+    //           // print(categoryDetails['isParent']);
+    //           // print(categoryDetails['categoryImage']);
+    //           if (categoryDetails['categoryId'] != null &&
+    //               categoryDetails['categoryImage'] != null &&
+    //               categoryDetails['displayPosition'] != null &&
+    //               categoryDetails['displayName'] != null &&
+    //               categoryDetails['isActive'] != null &&
+    //               categoryDetails['isParent'] != null) {
+    //             // print(categoryDetails);
+    //             if (categoryDetails['isActive'] == 'YES') {
+    //               categoryNameCategoryDetailsMap[categoryDetails['categoryName']] =
+    //                   categoryDetails;
+    //               if (categoryDetails['isParent'] == 'YES') {
+    //                 if (categoryDetails['subCategories'] != null) {
+    //                   homeCategories.add(categoryDetails);
+    //                   homeCategoryNameCategoryDetailsMap[
+    //                       categoryDetails['categoryName']] = categoryDetails;
+    //                 }
+    //               }
+    //             }
+    //           }
+    //         });
+    //         // setState(() {
+    //         //   homeCategoriesAvailable = true;
+    //         // });
+    //         // print(homeCategories.length.toString());
+    //         // print(homeCategories);
+    //         homeCategories.sort((a, b) {
+    //           return a['displayPosition'].compareTo(b['displayPosition']);
+    //         });
+    //         // print(homeCategories);
+    //         // print(subCategories.length.toString());
+    //         getProductsForAllActiveCategories();
+    //       }
+    //       // print('Number of HOME Categories:' + homeCategories.length.toString());
+    //       // // print(homeCategories);
+    //       // print('Number of SUB Categories:' + subCategories.length.toString());
+    //       // // print(subCategories);
+    //     });
 
   
-    DateTime now = DateTime.now();
-    selectedSaleDate = DateFormat('yyyy-MM-dd').format(now);
-    selectedSaleStartDate = DateFormat('yyyy-MM-dd').format(now);
-    selectedSaleEndDate = DateFormat('yyyy-MM-dd').format(now);
+    // DateTime now = DateTime.now();
+    // selectedSaleDate = DateFormat('yyyy-MM-dd').format(now);
+    // selectedSaleStartDate = DateFormat('yyyy-MM-dd').format(now);
+    // selectedSaleEndDate = DateFormat('yyyy-MM-dd').format(now);
 
-    year = selectedSaleDate.substring(0,4);
-    month = selectedSaleDate.substring(5,7);
-    day = selectedSaleDate.substring(8,10);
+    // year = selectedSaleDate.substring(0,4);
+    // month = selectedSaleDate.substring(5,7);
+    // day = selectedSaleDate.substring(8,10);
 
-    year = selectedSaleStartDate.substring(0,4);
-    month = selectedSaleStartDate.substring(5,7);
-    day = selectedSaleStartDate.substring(8,10);
+    // year = selectedSaleStartDate.substring(0,4);
+    // month = selectedSaleStartDate.substring(5,7);
+    // day = selectedSaleStartDate.substring(8,10);
 
-    year = selectedSaleEndDate.substring(0,4);
-    month = selectedSaleEndDate.substring(5,7);
-    day = selectedSaleEndDate.substring(8,10);
+    // year = selectedSaleEndDate.substring(0,4);
+    // month = selectedSaleEndDate.substring(5,7);
+    // day = selectedSaleEndDate.substring(8,10);
 
   // FirebaseDatabase.instance.
   //               reference().

@@ -193,10 +193,32 @@ class _ShowTerminalWiseMonthlySaleAnalysisState extends State<ShowTerminalWiseMo
                                     ),
                                   ) ;
                               } else {
-                                return CircularProgressIndicator();
+                                return Container(
+                                  color: Colors.white,
+                                  child: Dialog(
+                                    child: new Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        new CircularProgressIndicator(),
+                                        new Text("Loading Bills....."),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               }
                             } else {
-                              return CircularProgressIndicator();
+                              return Container(
+                                color: Colors.white,
+                                child: Dialog(
+                                  child: new Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      new CircularProgressIndicator(),
+                                      new Text("Loading Bills....."),
+                                    ],
+                                  ),
+                                ),
+                              );
                             }
                           },
                       stream:                        

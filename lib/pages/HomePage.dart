@@ -391,7 +391,7 @@ var _preferences = await SharedPreferences.getInstance();
         child: FlatButton(
           color: Colors.blue,
           child: Text(
-            'Online Orders',
+            'ONLINE ORDERS',
             style:TextStyle(
               fontFamily: 'Montserrat', 
               fontSize: 14.0,
@@ -414,7 +414,7 @@ var _preferences = await SharedPreferences.getInstance();
         child: FlatButton(
           color: Colors.blue,
           child: Text(
-            'Terminal Sale Position',
+            'TERMINAL SALES',
             style:TextStyle(
               fontFamily: 'Montserrat', 
               fontSize: 14.0,
@@ -456,7 +456,7 @@ var _preferences = await SharedPreferences.getInstance();
         child: FlatButton(
           color: Colors.blue,
           child: Text(
-            'NILA Point-Of-Sale',
+            'NILA POINT-OF-SALE',
             style:TextStyle(
               fontFamily: 'Montserrat', 
               fontSize: 14.0,

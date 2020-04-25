@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kiranawala_admin/main.dart';
 import 'package:kiranawala_admin/main.dart' as prefix0;
+import 'package:kiranawala_admin/pages/send-bill-to-whatsapp.dart';
 import 'package:kiranawala_admin/pages/showOrderCount.dart';
 
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
@@ -61,7 +62,8 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
             billedProductList.add({
               'name':billedProduct['productName'],
               'price':billedProduct['productPrice'],
-              'qty':billedProduct['productBilledQty']
+              'qty':billedProduct['productBilledQty'],
+              'amount':billedProduct['productBillAmount']
             });
 
             // if(billedProduct['productName'].toString().length > 16 )
@@ -78,7 +80,7 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
                               + billedProduct['productName'] + '\t' 
                               + billedProduct['productPrice'].toString() + '\t' 
                               + billedProduct['productBilledQty'].toString() + '\t' 
-                              + billedProduct['productBillAmount'] + '\n';
+                              + billedProduct['productBillAmount'].toString() + '\n';
             // }
           });
 
@@ -128,6 +130,16 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
                           )
                         )                  
                     ),
+                      Expanded(
+                      flex:3,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:Text(
+                          billedProduct['amount'].toString(),
+                          textAlign: TextAlign.right,
+                          )
+                        )                  
+                    ),
                   ],
             ),
                 ),
@@ -149,7 +161,13 @@ class _ShowBilledProductsState extends State<ShowBilledProducts> {
             IconButton(
               icon: Icon(Icons.share),
               onPressed: (){
-                FlutterOpenWhatsapp.sendSingleMessage("+919849494143", billAsString);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context){
+                     return SendBillToWhatsapp(); 
+                    }
+                  ));
+                // FlutterOpenWhatsapp.sendSingleMessage("+919849494143", billAsString);
               },
             )
           ],
