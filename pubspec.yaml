@@ -11,7 +11,7 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+112
+version: 1.0.0+138
 environment:
   sdk: ">=2.1.0 <3.0.0"
   
@@ -23,12 +23,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   carousel_pro: ^0.0.13
-  firebase_auth: ^0.11.1+7
+#  firebase_auth: ^0.11.1+7
   cloud_firestore: ^0.12.5+2
   google_sign_in: ^4.0.2
   shared_preferences: ^0.5.3+1
   fluttertoast: ^3.1.0
   firebase_core: ^0.4.0+6
+  firebase_auth:
+    git:
+      url: https://github.com/collinjackson/plugins.git
+      ref: 441417c2fed0ff26bf84a49ab2c5ffd2aa5487de
+      path: packages/firebase_auth
   firebase_database: ^3.0.3
   english_words: ^3.1.3
   pin_entry_text_field: ^0.1.3
@@ -52,13 +57,14 @@ dependencies:
   location:
   geolocator:
   firebase_remote_config:
-  package_info:
+  package_info: ^0.4.0+6
   url_launcher: 
   queries:
-  barcode_scan:
   sliding_up_panel:
   audioplayers:
-  flutter_open_whatsapp:
+  store_redirect:
+  flutter_cache_manager:
+  barcode_scan: 2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -315,4 +321,7 @@ flutter:
   fonts:
     - family: Montserrat
       fonts:
-        - asset: fonts/Montserrat-Regular.ttf        
+        - asset: fonts/Montserrat-Regular.ttf
+    - family: Kohinoor-Bold
+      fonts:
+        - asset: fonts/Kohinoor-Bold.ttf
