@@ -1,9 +1,12 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kiranawala_admin/main.dart';
-import 'package:kiranawala_admin/pages/barcode-search-results.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
+import 'package:kiranawala_admin/pages/product-lookup-results.dart';
+import 'package:kiranawala_admin/pages/product-lookup-request-barcode.dart';
 
-import 'request-barcode-obsolete.dart';
+import 'barcode-search-results.dart';
+//import 'request-barcode-obsolete.dart';
 import 'show-home-page.dart';
 import 'dart:math';
 
@@ -21,7 +24,7 @@ class _SearchBarCodeState extends State<SearchBarCode> {
   Future getBarCode() async {
     barCodeToSearch = await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return RequestBarCodeObsolete ();
+          return ProductLookUpRequestBarCode ();
         }));
     print(barCodeToSearch);
     if (barCodeToSearch.length > 0) {

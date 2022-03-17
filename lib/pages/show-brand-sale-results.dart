@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
 import 'package:kiranawala_admin/pages/show-brand-sale.dart';
 import 'package:kiranawala_admin/pages/show-home-page.dart';
 import 'show-sale-position-home.dart';
@@ -26,7 +27,7 @@ class _ShowBrandSaleResultsState extends State<ShowBrandSaleResults> {
           child: Column(
             children: <Widget>[
               Text(
-                fullProductMap[int.parse(productCode)].productName.toString(),
+                fullProductBasicDetailsMap[int.parse(productCode)].productName.toString(),
                 style:TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 20.0,
@@ -38,7 +39,7 @@ class _ShowBrandSaleResultsState extends State<ShowBrandSaleResults> {
               Row(children: <Widget>[
                 Expanded(
                   child: Text(
-                    fullProductMap[int.parse(productCode)].productPrice.toString(),
+                    fullProductBasicDetailsMap[int.parse(productCode)].productPrice.toString(),
                     style:TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 20.0,

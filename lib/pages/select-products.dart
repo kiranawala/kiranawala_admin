@@ -2,25 +2,26 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kiranawala_admin/pages/show-home-page.dart';
-import 'package:kiranawala_admin/pages/show-product-sale.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
+import 'package:kiranawala_admin/pages/show-product-sale-single-store.dart';
 import 'package:kiranawala_admin/pages/show-sale-position-home.dart';
 
-import 'request-barcode.dart';
+import 'product-lookup-request-barcode.dart';
 import 'select-product-name-static.dart';
+import 'show-admin-home-page.dart';
 
 String barCodeToSearch = '';
 int productCode = 0;
 //List<ProductBasicDetails> barCodeSearchResults = List<ProductBasicDetails>();
 //Map<int, ProductBasicDetails> barCodeSearchResultsMap = Map<int, ProductBasicDetails>();
-String productNode = 'KIRANAWALA_MASTER';
+//String productNode = 'KIRANAWALA_MASTER';
 
-class ProductLookUp extends StatefulWidget {
+class SelectProducts extends StatefulWidget {
   @override
-  _ProductLookUpState createState() => _ProductLookUpState();
+  _SelectProductsState createState() => _SelectProductsState();
 }
 
-class _ProductLookUpState extends State<ProductLookUp> {
+class _SelectProductsState extends State<SelectProducts> {
 
   int stockPosition = 0;
   double productStockPosition = 0;
@@ -39,7 +40,7 @@ class _ProductLookUpState extends State<ProductLookUp> {
     FirebaseDatabase.instance
         .reference()
         .child('stores')
-        .child(productNode)
+        .child(selectedStore)
         .child('products')
         .orderByChild('barcode')
         .equalTo(barCodeToSearch.toLowerCase())
@@ -102,7 +103,7 @@ class _ProductLookUpState extends State<ProductLookUp> {
             Navigator.of(context).push<dynamic>(
                 MaterialPageRoute<dynamic>(
                     builder:(BuildContext context){
-                      return ShowProductSalePosition();
+                      return ShowProductSalePositionSingleStore();
                     }
                 )
             );
@@ -212,7 +213,7 @@ class _ProductLookUpState extends State<ProductLookUp> {
 
     barCodeToSearch = await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return RequestBarCode();
+          return ProductLookUpRequestBarCode();
         }));
     print(barCodeToSearch);
     if (barCodeToSearch.length > 0) {
@@ -287,7 +288,7 @@ class _ProductLookUpState extends State<ProductLookUp> {
                 Navigator.of(context).push<dynamic>(
                   MaterialPageRoute<dynamic>(
                     builder:(BuildContext context){
-                      return ShowProductSalePosition();
+                      return ShowProductSalePositionSingleStore();
                     }
                   )
                 );
@@ -316,7 +317,7 @@ class _ProductLookUpState extends State<ProductLookUp> {
                         Navigator.of(context).push<dynamic>(
                             MaterialPageRoute<dynamic>(
                                 builder:(BuildContext context){
-                                  return ShowProductSalePosition();
+                                  return ShowProductSalePositionSingleStore();
                                 }
                             )
                         );

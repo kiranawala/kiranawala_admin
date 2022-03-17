@@ -1,8 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:kiranawala_admin/pages/show-home-page.dart';
-
-import 'show-product-sale.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
+import 'package:kiranawala_admin/pages/show-product-sale-single-store.dart';
 
 List<ProductBasicDetails> productSearchResults = List<ProductBasicDetails>();
 List<ProductBasicDetails> products = List<ProductBasicDetails>();
@@ -79,8 +78,8 @@ class _SelectProductNameStaticState extends State<SelectProductNameStatic> {
   void initState() {
     super.initState();
 //    getProducts();
-    products = fullProductList;
-    productSearchResults = fullProductList;
+    products = fullProductBasicDetailsList;
+    productSearchResults = fullProductBasicDetailsList;
   }
 
   @override
@@ -239,7 +238,7 @@ class _SelectProductNameStaticState extends State<SelectProductNameStatic> {
                           Navigator.of(context).push<dynamic>(
                             MaterialPageRoute<dynamic>(
                               builder:(BuildContext context){
-                                return ShowProductSalePosition();
+                                return ShowProductSalePositionSingleStore();
                               }
                             )
                           );

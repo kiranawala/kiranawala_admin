@@ -4,6 +4,7 @@ import 'package:kiranawala_admin/pages/reset-store-status.dart';
 import 'package:kiranawala_admin/pages/show-home-page.dart';
 
 import '../main.dart';
+import 'check-if-admin.dart';
 import 'select-store.dart';
 
 class ResetStore extends StatefulWidget {

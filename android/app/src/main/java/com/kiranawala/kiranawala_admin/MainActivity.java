@@ -5,7 +5,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 import android.telephony.SmsManager;
 import android.util.Log;
 
-public class MainActivity extends FlutterActivity {  
+public class MainActivity extends FlutterActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:kiranawala_admin/pages/multi-store-stock-position.dart';
 import 'package:kiranawala_admin/pages/search-barcode.dart';
+import 'package:kiranawala_admin/pages/show-home-page.dart';
+
+import 'check-if-admin.dart';
 class RequestBarCodeObsolete extends StatefulWidget {
   @override
   _RequestBarCodeObsoleteState createState() => _RequestBarCodeObsoleteState();
@@ -98,6 +100,9 @@ class _RequestBarCodeObsoleteState extends State<RequestBarCodeObsolete> {
                                             value['imageurl'].toString(),
                                             value['category'].toString(),
                                             value['brand'].toString(),
+                                            'N/A',
+                                            'N/A',
+                                            'N/A'
                                           ));
                                         });
                                       }

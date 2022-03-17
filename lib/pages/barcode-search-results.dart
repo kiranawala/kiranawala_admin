@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
+import 'package:kiranawala_admin/pages/product-lookup.dart';
 import 'package:kiranawala_admin/pages/search-barcode.dart';
 import 'package:kiranawala_admin/pages/show-home-page.dart';
 
@@ -67,21 +69,22 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
       print(key);
       print(value.productID);
     });
+    print('BarcodeSearchResults:');
     print(barCodeSearchResults);
 
-    if(refreshing)
-      return Container(
-        color: Colors.white,
-        child: Dialog(
-          child: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              new CircularProgressIndicator(),
-            ],
-          ),
-        ),
-      );
-    else
+//    if(refreshing)
+//      return Container(
+//        color: Colors.white,
+//        child: Dialog(
+//          child: new Row(
+//            mainAxisSize: MainAxisSize.min,
+//            children: [
+//              new CircularProgressIndicator(),
+//            ],
+//          ),
+//        ),
+//      );
+//    else
 
     if(barCodeSearchResults.length > 0)
       return
@@ -91,7 +94,7 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                 Navigator.of(context).pop();
                 Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(
                     builder:(BuildContext context){
-                      return SearchBarCode();
+                      return ProductLookUp();
                     }));
               });
 
@@ -103,9 +106,10 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                   leading: IconButton(
                     icon:Icon(Icons.keyboard_backspace),
                     onPressed: (){
+                      Navigator.of(context).pop();
                       Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(
                           builder:(BuildContext context){
-                            return SearchBarCode();
+                            return ProductLookUp();
                           }));
                     },
                   ),
@@ -143,422 +147,695 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                                     itemCount: barCodeSearchResults.length,
                                     itemBuilder: (BuildContext context, int index){
                                       return
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
                                               padding: EdgeInsets.all(8.0),
                                               decoration: BoxDecoration(
-                                                  border: Border.all(color: Colors.blueGrey),
-                                                  borderRadius: BorderRadius.all(Radius.circular(5.0))
+                                                border: Border.all(color:Colors.grey),
+                                                borderRadius: BorderRadius.all(Radius.circular(5.0))
                                               ),
-                                              height: 400.0,
-                                              child: Column(children: <Widget>[
-                                                Expanded(
-                                                  flex:16,
-                                                  child: Row(
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Row(
                                                     children: <Widget>[
                                                       Expanded(
-                                                        flex:6,
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                    Expanded(
-                                                      flex:2,
-                                                      child: Container(
-                                                        width:MediaQuery.of(context).size.width,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: RaisedButton(
-                                                            onPressed:(){
-//                                                              productToUpdate = barCodeSearchResults[index];
-//                                                              productToUpdateIndex = index;
-//                                                              Navigator.of(context).pop();
-//                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
-//                                                                return UpdateProductDetails();
-//                                                              }));
-                                                            },
-                                                            child: Text(
-                                                              barCodeSearchResults[index].productID.toString(),
-                                                              style:TextStyle(
-                                                                  fontFamily: 'Montserrat',
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 20.0
-                                                              ),
-                                                              textAlign: TextAlign.center,
-                                                            ),
-                                                          ),
+                                                        child: Container(
+                                                            child:Text('SKU:')
                                                         ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productID.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Barcode:')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productBarCode.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Name')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productName.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('MRP')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productPrice.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Category')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productCategory.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Brand')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productBrand.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Image URL')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productImageURL.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(children: <Widget>[
+                                                    Expanded(
+                                                      child: Container(
+                                                          child:Text('Product Status')
                                                       ),
                                                     ),
-                                                            Expanded(
-                                                              flex:2,
-                                                              child: Container(
-                                                                width:MediaQuery.of(context).size.width,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8.0),
-                                                                  child: RaisedButton(
-                                                                    onPressed:(){
-//                                                              productToUpdate = barCodeSearchResults[index];
-//                                                              productToUpdateIndex = index;
-//                                                              Navigator.of(context).pop();
-//                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
-//                                                                return UpdateProductDetails();
-//                                                              }));
-                                                                    },
-                                                                    child: Text(
-                                                                      barCodeSearchResults[index].productBarCode.toString(),
-                                                                      style:TextStyle(
-                                                                          fontFamily: 'Montserrat',
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20.0
-                                                                      ),
-                                                                      textAlign: TextAlign.center,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                    Expanded(
+                                                      child: Container(
+                                                          child:Text(barCodeSearchResults[index].productStatus.toString())
+                                                      ),
+                                                    ),
+                                                  ],),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Parent Store')
                                                         ),
                                                       ),
-//                                              Expanded(
-//                                                flex:3,
-//                                                child: Column(
-//                                                  children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productParentStore.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Creation TimeStamp')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Discount')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                      (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].discount.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Discount Type')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                                                (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].discountType.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Discount Start Date')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                                                (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].discountStartDate.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Discount End Date')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                                                (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].discountEndDate.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Is Discount Active?')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                                                (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].isDiscountActive.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text('Status Change Timestamp')
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:Text(
+                                                                (fullProductDiscountMap[barCodeSearchResults[index].productID] != null?fullProductDiscountMap[barCodeSearchResults[index].productID].discountStatusChangeTimeStamp.toString():'N/A'))
+//                                                                barCodeSearchResults[index].productCreationTimeStamp.toString())
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+//                                        Padding(
+//                                          padding: const EdgeInsets.all(8.0),
+//                                          child: Container(
+//                                              padding: EdgeInsets.all(8.0),
+//                                              decoration: BoxDecoration(
+//                                                  border: Border.all(color: Colors.blueGrey),
+//                                                  borderRadius: BorderRadius.all(Radius.circular(5.0))
+//                                              ),
+//                                              height: 400.0,
+//                                              child: Column(children: <Widget>[
+//                                                Expanded(
+//                                                  flex:16,
+//                                                  child: Row(
+//                                                    children: <Widget>[
+//                                                      Expanded(
+//                                                        flex:6,
+//                                                        child: Column(
+//                                                          children: <Widget>[
 //                                                    Expanded(
 //                                                      flex:2,
-//                                                      child: Padding(
-//                                                        padding: const EdgeInsets.all(8.0),
-//                                                        child: RaisedButton(
-//                                                          highlightColor:Colors.blue,
-//                                                          onPressed:(){
-//                                                            setState(() {
-//                                                              refreshing = true;
-//                                                            });
-//                                                            productToUpdate = barCodeSearchResults[index];
-//                                                            barCodeToSearch = productToUpdate.productBarCode;
-//                                                            removeProductFromFirebase(barCodeSearchResults[index].productID);
-//                                                          },
-//                                                          child:Text('DELETE')
+//                                                      child: Container(
+//                                                        width:MediaQuery.of(context).size.width,
+//                                                        child: Padding(
+//                                                          padding: const EdgeInsets.all(8.0),
+//                                                          child: RaisedButton(
+//                                                            onPressed:(){
+////                                                              productToUpdate = barCodeSearchResults[index];
+////                                                              productToUpdateIndex = index;
+////                                                              Navigator.of(context).pop();
+////                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
+////                                                                return UpdateProductDetails();
+////                                                              }));
+//                                                            },
+//                                                            child: Text(
+//                                                              barCodeSearchResults[index].productID.toString(),
+//                                                              style:TextStyle(
+//                                                                  fontFamily: 'Montserrat',
+//                                                                  fontWeight: FontWeight.bold,
+//                                                                  fontSize: 20.0
+//                                                              ),
+//                                                              textAlign: TextAlign.center,
+//                                                            ),
+//                                                          ),
 //                                                        ),
 //                                                      ),
 //                                                    ),
-//                                                    Expanded(
-//                                                      flex:2,
+//                                                            Expanded(
+//                                                              flex:2,
+//                                                              child: Container(
+//                                                                width:MediaQuery.of(context).size.width,
+//                                                                child: Padding(
+//                                                                  padding: const EdgeInsets.all(8.0),
+//                                                                  child: RaisedButton(
+//                                                                    onPressed:(){
+////                                                              productToUpdate = barCodeSearchResults[index];
+////                                                              productToUpdateIndex = index;
+////                                                              Navigator.of(context).pop();
+////                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
+////                                                                return UpdateProductDetails();
+////                                                              }));
+//                                                                    },
+//                                                                    child: Text(
+//                                                                      barCodeSearchResults[index].productBarCode.toString(),
+//                                                                      style:TextStyle(
+//                                                                          fontFamily: 'Montserrat',
+//                                                                          fontWeight: FontWeight.bold,
+//                                                                          fontSize: 20.0
+//                                                                      ),
+//                                                                      textAlign: TextAlign.center,
+//                                                                    ),
+//                                                                  ),
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          ],
+//                                                        ),
+//                                                      ),
+////                                              Expanded(
+////                                                flex:3,
+////                                                child: Column(
+////                                                  children: <Widget>[
+////                                                    Expanded(
+////                                                      flex:2,
+////                                                      child: Padding(
+////                                                        padding: const EdgeInsets.all(8.0),
+////                                                        child: RaisedButton(
+////                                                          highlightColor:Colors.blue,
+////                                                          onPressed:(){
+////                                                            setState(() {
+////                                                              refreshing = true;
+////                                                            });
+////                                                            productToUpdate = barCodeSearchResults[index];
+////                                                            barCodeToSearch = productToUpdate.productBarCode;
+////                                                            removeProductFromFirebase(barCodeSearchResults[index].productID);
+////                                                          },
+////                                                          child:Text('DELETE')
+////                                                        ),
+////                                                      ),
+////                                                    ),
+////                                                    Expanded(
+////                                                      flex:2,
+////                                                      child: Padding(
+////                                                        padding: const EdgeInsets.all(8.0),
+////                                                        child: RaisedButton(
+////                                                            onPressed:(){
+////                                                              productToUpdate = barCodeSearchResults[index];
+////                                                              productToUpdateIndex = index;
+////                                                              Navigator.of(context).pop();
+////                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
+////                                                                return UpdateProductDetails();
+////                                                              }));
+////                                                            },
+////                                                            child:Text('UPDATE')
+////                                                        ),
+////                                                      ),
+////                                                    )
+////                                                  ],
+////                                                ),
+////                                              )
+//
+//                                                    ],
+//                                                  ),
+//                                                ),
+//
+//                                                Expanded(
+//                                                    flex:16,
+//                                                    child: Container(
+//                                                      width:MediaQuery.of(context).size.width,
 //                                                      child: Padding(
 //                                                        padding: const EdgeInsets.all(8.0),
 //                                                        child: RaisedButton(
-//                                                            onPressed:(){
-//                                                              productToUpdate = barCodeSearchResults[index];
-//                                                              productToUpdateIndex = index;
-//                                                              Navigator.of(context).pop();
-//                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
-//                                                                return UpdateProductDetails();
-//                                                              }));
-//                                                            },
-//                                                            child:Text('UPDATE')
+//                                                          onPressed: (){
+//                                                          },
+//                                                          child: Text(
+//                                                            barCodeSearchResults[index].productName.toString(),
+//                                                            textAlign: TextAlign.center,
+//                                                            style:TextStyle(
+//                                                              // backgroundColor: Colors.blue,
+//                                                              color:Colors.green,
+//                                                              fontFamily: 'Montserrat',
+//                                                              fontWeight: FontWeight.bold,
+//                                                              fontSize: 20.0,
+//                                                            ),
+//                                                            maxLines: 3,
+//                                                          ),
 //                                                        ),
 //                                                      ),
 //                                                    )
-//                                                  ],
 //                                                ),
-//                                              )
-
-                                                    ],
-                                                  ),
-                                                ),
-
-                                                Expanded(
-                                                    flex:16,
-                                                    child: Container(
-                                                      width:MediaQuery.of(context).size.width,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: RaisedButton(
-                                                          onPressed: (){
-                                                          },
-                                                          child: Text(
-                                                            barCodeSearchResults[index].productName.toString(),
-                                                            textAlign: TextAlign.center,
-                                                            style:TextStyle(
-                                                              // backgroundColor: Colors.blue,
-                                                              color:Colors.green,
-                                                              fontFamily: 'Montserrat',
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 20.0,
-                                                            ),
-                                                            maxLines: 3,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                ),
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                        onPressed:(){
-
-                                                        },
-                                                        child: Text(
-                                                          'Rs.'+ barCodeSearchResults[index].productPrice.toString() +'/-',
-                                                          style:TextStyle(
-                                                              fontFamily: 'Montserrat',
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 20.0
-                                                          ),
-                                                          textAlign: TextAlign.center,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                          onPressed:(){
-
-                                                          },
-                                                          child:
-                                                          Text(
-                                                            barCodeSearchResults[index].productCategory,
-                                                            style:TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20.0
-                                                            ),
-                                                            textAlign: TextAlign.right,
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                          onPressed:(){
-                                                          },
-                                                          child:
-                                                          Text(
-                                                            barCodeSearchResults[index].productBrand,
-                                                            style:TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20.0
-                                                            ),
-                                                            textAlign: TextAlign.right,
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                          onPressed:(){
-                                                          },
-                                                          child:
-                                                          Text(
-                                                            (barCodeSearchResults[index].productStatus != null)?barCodeSearchResults[index].productStatus:'N/A',
-                                                            style:TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20.0
-                                                            ),
-                                                            textAlign: TextAlign.right,
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                          onPressed:(){
-                                                          },
-                                                          child:
-                                                          Text(
-                                                            (barCodeSearchResults[index].productParentStore != null)?barCodeSearchResults[index].productParentStore:'N/A',
-                                                            style:TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20.0
-                                                            ),
-                                                            textAlign: TextAlign.right,
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex:8,
-                                                  child: Container(
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: RaisedButton(
-                                                          onPressed:(){
-                                                          },
-                                                          child:
-                                                          Text(
-                                                            (barCodeSearchResults[index].productCreationTimeStamp != null)?barCodeSearchResults[index].productCreationTimeStamp:'N/A',
-                                                            style:TextStyle(
-                                                                fontFamily: 'Montserrat',
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20.0
-                                                            ),
-                                                            textAlign: TextAlign.right,
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-//                                        Expanded(
-//                                          flex:8,
-//                                          child:Row(
-//                                            children: <Widget>[
-//                                              Expanded(
-//                                                flex:4,
-//                                                child: Container(
-//                                                  width:MediaQuery.of(context).size.width,
-//                                                  child: Padding(
-//                                                    padding: const EdgeInsets.all(8.0),
-//                                                    child: Text(
-//                                                      'IN',
-//                                                      style:TextStyle(
-//                                                          fontFamily: 'Montserrat',
-//                                                          fontWeight: FontWeight.bold,
-//                                                          fontSize: 20.0
-//                                                      ),
-//                                                      textAlign: TextAlign.center,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ),
-//                                              Expanded(
-//                                                flex:4,
-//                                                child: Container(
-//                                                  width:MediaQuery.of(context).size.width,
-//                                                  child: Padding(
-//                                                    padding: const EdgeInsets.all(8.0),
-//                                                    child: Text(
-//                                                      'OUT',
-//                                                      style:TextStyle(
-//                                                          fontFamily: 'Montserrat',
-//                                                          fontWeight: FontWeight.bold,
-//                                                          fontSize: 20.0
-//                                                      ),
-//                                                      textAlign: TextAlign.center,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ),
-//                                              Expanded(
-//                                                flex:4,
-//                                                child: Container(
-//                                                  width:MediaQuery.of(context).size.width,
-//                                                  child: Padding(
-//                                                    padding: const EdgeInsets.all(8.0),
-//                                                    child: Text(
-//                                                      'STOCK',
-//                                                      style:TextStyle(
-//                                                          fontFamily: 'Montserrat',
-//                                                          fontWeight: FontWeight.bold,
-//                                                          fontSize: 20.0
-//                                                      ),
-//                                                      textAlign: TextAlign.center,
-//                                                    ),
-//                                                  ),
-//                                                ),
-//                                              ),
-//                                            ],
-//                                          ),
-//                                        ),
-//                                              Expanded(
-//                                                flex:8,
-//                                                child:Row(
-//                                                  children: <Widget>[
-//                                                    Expanded(
-//                                                      flex:4,
-//                                                      child: Container(
-//                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
-//                                                        width:MediaQuery.of(context).size.width,
-//                                                        child: RaisedButton(
-//                                                          onPressed:(){
-//                                                            double x = (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]:0;
-////                                                              Navigator.of(context).pop();
-//                                                            if(x>0)
-//                                                              {
-//                                                            productCode = barCodeSearchResults[index].productID;
-//                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
-//                                                                return ProductStockInwardHistory();
-//                                                              }));
-//                                                            }
-//                                                          },
-//                                                          child: Padding(
-//                                                            padding: const EdgeInsets.all(8.0),
-//                                                            child: Text(
-//                                                                (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID].toString():'0',
-//                                                              style:TextStyle(
-//                                                                  fontFamily: 'Montserrat',
-//                                                                  fontWeight: FontWeight.bold,
-//                                                                  fontSize: 20.0
-//                                                              ),
-//                                                              textAlign: TextAlign.center,
-//                                                            ),
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
+//                                                        onPressed:(){
+//
+//                                                        },
+//                                                        child: Text(
+//                                                          'Rs.'+ barCodeSearchResults[index].productPrice.toString() +'/-',
+//                                                          style:TextStyle(
+//                                                              fontFamily: 'Montserrat',
+//                                                              fontWeight: FontWeight.bold,
+//                                                              fontSize: 20.0
 //                                                          ),
+//                                                          textAlign: TextAlign.center,
 //                                                        ),
 //                                                      ),
 //                                                    ),
-//                                                    Expanded(
-//                                                      flex:4,
-//                                                      child: Container(
-//                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
-//                                                        width:MediaQuery.of(context).size.width,
-//                                                        child: RaisedButton(
+//                                                  ),
+//                                                ),
+//
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
 //                                                          onPressed:(){
-//                                                            double x = (productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID]:0;
-//                                                            if(x > 0){
-////                                                              Navigator.of(context).pop();
-//                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
-//                                                                return ProductStockOutwardHistory();
-//                                                              }));
-//                                                            }
+//
 //                                                          },
-//                                                          child: Padding(
-//                                                            padding: const EdgeInsets.all(8.0),
-//                                                            child: Text(
-//                                                                (productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID].toString():'0',
-//                                                              style:TextStyle(
-//                                                                  fontFamily: 'Montserrat',
-//                                                                  fontWeight: FontWeight.bold,
-//                                                                  fontSize: 20.0
-//                                                              ),
-//                                                              textAlign: TextAlign.center,
+//                                                          child:
+//                                                          Text(
+//                                                            barCodeSearchResults[index].productCategory,
+//                                                            style:TextStyle(
+//                                                                fontFamily: 'Montserrat',
+//                                                                fontWeight: FontWeight.bold,
+//                                                                fontSize: 20.0
 //                                                            ),
-//                                                          ),
-//                                                        ),
+//                                                            textAlign: TextAlign.right,
+//                                                          )
 //                                                      ),
 //                                                    ),
+//                                                  ),
+//                                                ),
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
+//                                                          onPressed:(){
+//                                                          },
+//                                                          child:
+//                                                          Text(
+//                                                            barCodeSearchResults[index].productBrand,
+//                                                            style:TextStyle(
+//                                                                fontFamily: 'Montserrat',
+//                                                                fontWeight: FontWeight.bold,
+//                                                                fontSize: 20.0
+//                                                            ),
+//                                                            textAlign: TextAlign.right,
+//                                                          )
+//                                                      ),
+//                                                    ),
+//                                                  ),
+//                                                ),
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
+//                                                          onPressed:(){
+//                                                          },
+//                                                          child:
+//                                                          Text(
+//                                                            (barCodeSearchResults[index].productStatus != null)?barCodeSearchResults[index].productStatus:'N/A',
+//                                                            style:TextStyle(
+//                                                                fontFamily: 'Montserrat',
+//                                                                fontWeight: FontWeight.bold,
+//                                                                fontSize: 20.0
+//                                                            ),
+//                                                            textAlign: TextAlign.right,
+//                                                          )
+//                                                      ),
+//                                                    ),
+//                                                  ),
+//                                                ),
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
+//                                                          onPressed:(){
+//                                                          },
+//                                                          child:
+//                                                          Text(
+//                                                            (barCodeSearchResults[index].productParentStore != null)?barCodeSearchResults[index].productParentStore:'N/A',
+//                                                            style:TextStyle(
+//                                                                fontFamily: 'Montserrat',
+//                                                                fontWeight: FontWeight.bold,
+//                                                                fontSize: 20.0
+//                                                            ),
+//                                                            textAlign: TextAlign.right,
+//                                                          )
+//                                                      ),
+//                                                    ),
+//                                                  ),
+//                                                ),
+//                                                Expanded(
+//                                                  flex:8,
+//                                                  child: Container(
+//                                                    width:MediaQuery.of(context).size.width,
+//                                                    child: Padding(
+//                                                      padding: const EdgeInsets.all(8.0),
+//                                                      child: RaisedButton(
+//                                                          onPressed:(){
+//                                                          },
+//                                                          child:
+//                                                          Text(
+//                                                            (barCodeSearchResults[index].productCreationTimeStamp != null)?barCodeSearchResults[index].productCreationTimeStamp:'N/A',
+//                                                            style:TextStyle(
+//                                                                fontFamily: 'Montserrat',
+//                                                                fontWeight: FontWeight.bold,
+//                                                                fontSize: 20.0
+//                                                            ),
+//                                                            textAlign: TextAlign.right,
+//                                                          )
+//                                                      ),
+//                                                    ),
+//                                                  ),
+//                                                ),
+////                                        Expanded(
+////                                          flex:8,
+////                                          child:Row(
+////                                            children: <Widget>[
+////                                              Expanded(
+////                                                flex:4,
+////                                                child: Container(
+////                                                  width:MediaQuery.of(context).size.width,
+////                                                  child: Padding(
+////                                                    padding: const EdgeInsets.all(8.0),
+////                                                    child: Text(
+////                                                      'IN',
+////                                                      style:TextStyle(
+////                                                          fontFamily: 'Montserrat',
+////                                                          fontWeight: FontWeight.bold,
+////                                                          fontSize: 20.0
+////                                                      ),
+////                                                      textAlign: TextAlign.center,
+////                                                    ),
+////                                                  ),
+////                                                ),
+////                                              ),
+////                                              Expanded(
+////                                                flex:4,
+////                                                child: Container(
+////                                                  width:MediaQuery.of(context).size.width,
+////                                                  child: Padding(
+////                                                    padding: const EdgeInsets.all(8.0),
+////                                                    child: Text(
+////                                                      'OUT',
+////                                                      style:TextStyle(
+////                                                          fontFamily: 'Montserrat',
+////                                                          fontWeight: FontWeight.bold,
+////                                                          fontSize: 20.0
+////                                                      ),
+////                                                      textAlign: TextAlign.center,
+////                                                    ),
+////                                                  ),
+////                                                ),
+////                                              ),
+////                                              Expanded(
+////                                                flex:4,
+////                                                child: Container(
+////                                                  width:MediaQuery.of(context).size.width,
+////                                                  child: Padding(
+////                                                    padding: const EdgeInsets.all(8.0),
+////                                                    child: Text(
+////                                                      'STOCK',
+////                                                      style:TextStyle(
+////                                                          fontFamily: 'Montserrat',
+////                                                          fontWeight: FontWeight.bold,
+////                                                          fontSize: 20.0
+////                                                      ),
+////                                                      textAlign: TextAlign.center,
+////                                                    ),
+////                                                  ),
+////                                                ),
+////                                              ),
+////                                            ],
+////                                          ),
+////                                        ),
+////                                              Expanded(
+////                                                flex:8,
+////                                                child:Row(
+////                                                  children: <Widget>[
+////                                                    Expanded(
+////                                                      flex:4,
+////                                                      child: Container(
+////                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
+////                                                        width:MediaQuery.of(context).size.width,
+////                                                        child: RaisedButton(
+////                                                          onPressed:(){
+////                                                            double x = (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]:0;
+//////                                                              Navigator.of(context).pop();
+////                                                            if(x>0)
+////                                                              {
+////                                                            productCode = barCodeSearchResults[index].productID;
+////                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
+////                                                                return ProductStockInwardHistory();
+////                                                              }));
+////                                                            }
+////                                                          },
+////                                                          child: Padding(
+////                                                            padding: const EdgeInsets.all(8.0),
+////                                                            child: Text(
+////                                                                (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID].toString():'0',
+////                                                              style:TextStyle(
+////                                                                  fontFamily: 'Montserrat',
+////                                                                  fontWeight: FontWeight.bold,
+////                                                                  fontSize: 20.0
+////                                                              ),
+////                                                              textAlign: TextAlign.center,
+////                                                            ),
+////                                                          ),
+////                                                        ),
+////                                                      ),
+////                                                    ),
+////                                                    Expanded(
+////                                                      flex:4,
+////                                                      child: Container(
+////                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
+////                                                        width:MediaQuery.of(context).size.width,
+////                                                        child: RaisedButton(
+////                                                          onPressed:(){
+////                                                            double x = (productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID]:0;
+////                                                            if(x > 0){
+//////                                                              Navigator.of(context).pop();
+////                                                              Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder: (BuildContext context){
+////                                                                return ProductStockOutwardHistory();
+////                                                              }));
+////                                                            }
+////                                                          },
+////                                                          child: Padding(
+////                                                            padding: const EdgeInsets.all(8.0),
+////                                                            child: Text(
+////                                                                (productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID].toString():'0',
+////                                                              style:TextStyle(
+////                                                                  fontFamily: 'Montserrat',
+////                                                                  fontWeight: FontWeight.bold,
+////                                                                  fontSize: 20.0
+////                                                              ),
+////                                                              textAlign: TextAlign.center,
+////                                                            ),
+////                                                          ),
+////                                                        ),
+////                                                      ),
+////                                                    ),
+//////                                                    Expanded(
+//////                                                      flex:4,
+//////                                                      child: Container(
+//////                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
+//////                                                        width:MediaQuery.of(context).size.width,
+//////                                                        child: Padding(
+//////                                                          padding: const EdgeInsets.all(8.0),
+//////                                                          child: Text(
+//////                                                            productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID].toString(),
+//////                                                            style:TextStyle(
+//////                                                                fontFamily: 'Montserrat',
+//////                                                                fontWeight: FontWeight.bold,
+//////                                                                fontSize: 20.0
+//////                                                            ),
+//////                                                            textAlign: TextAlign.center,
+//////                                                          ),
+//////                                                        ),
+//////                                                      ),
+//////                                                    ),
 ////                                                    Expanded(
 ////                                                      flex:4,
 ////                                                      child: Container(
@@ -567,7 +844,9 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
 ////                                                        child: Padding(
 ////                                                          padding: const EdgeInsets.all(8.0),
 ////                                                          child: Text(
-////                                                            productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID].toString(),
+////                                                            ((
+////                                            (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]:0)
+////                                            - ((productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID]:0)).toString(),
 ////                                                            style:TextStyle(
 ////                                                                fontFamily: 'Montserrat',
 ////                                                                fontWeight: FontWeight.bold,
@@ -578,33 +857,12 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
 ////                                                        ),
 ////                                                      ),
 ////                                                    ),
-//                                                    Expanded(
-//                                                      flex:4,
-//                                                      child: Container(
-//                                                        decoration: BoxDecoration(color:Colors.grey[300],borderRadius: BorderRadius.all(Radius.circular(5.0))),
-//                                                        width:MediaQuery.of(context).size.width,
-//                                                        child: Padding(
-//                                                          padding: const EdgeInsets.all(8.0),
-//                                                          child: Text(
-//                                                            ((
-//                                            (productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]!=null)?productStockInwardTotalQtyMap[barCodeSearchResults[index].productID]:0)
-//                                            - ((productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID] != null)?productStockOutwardTotalQtyMap[barCodeSearchResults[index].productID]:0)).toString(),
-//                                                            style:TextStyle(
-//                                                                fontFamily: 'Montserrat',
-//                                                                fontWeight: FontWeight.bold,
-//                                                                fontSize: 20.0
-//                                                            ),
-//                                                            textAlign: TextAlign.center,
-//                                                          ),
-//                                                        ),
-//                                                      ),
-//                                                    ),
-//                                                  ],
-//                                                )
-//                                              )
-                                              ])
-                                          ),
-                                        );
+////                                                  ],
+////                                                )
+////                                              )
+//                                              ])
+//                                          ),
+//                                        );
                                     }
                                 )
                             )
@@ -621,7 +879,7 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                 Navigator.of(context).pop();
                 Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(
                     builder:(BuildContext context){
-                      return SearchBarCode();
+                      return ProductLookUp();
                     }));
               });
 
@@ -635,8 +893,9 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                   leading: IconButton(
                       icon:Icon(Icons.keyboard_backspace),
                       onPressed:(){
+                        Navigator.of(context).pop();
                         Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder:(BuildContext context){
-                          return SearchBarCode();
+                          return ProductLookUp();
                         }));
                       }
                   ),
@@ -660,6 +919,7 @@ class _BarCodeSearchResultsState extends State<BarCodeSearchResults> {
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 )

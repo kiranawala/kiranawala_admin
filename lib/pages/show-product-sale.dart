@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
 import 'package:kiranawala_admin/pages/select-products.dart';
 import 'package:kiranawala_admin/pages/select-store-no-return.dart';
 import 'package:kiranawala_admin/pages/show-home-page.dart';
@@ -80,7 +81,7 @@ class _ShowProductSalePositionState extends State<ShowProductSalePosition> {
           {
             return RaisedButton(
               onPressed: (){
-                if(saleByDate.length != 0 )
+                if(stockOutwardByDate.length != 0 )
                 Navigator.of(context).push<dynamic>(
                     MaterialPageRoute<dynamic>(
                         builder:(BuildContext context){
@@ -210,7 +211,7 @@ class _ShowProductSalePositionState extends State<ShowProductSalePosition> {
     Navigator.of(context).pop();
     Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return ProductLookUp ();
+          return SelectProducts ();
         }));
   }
 
@@ -244,11 +245,11 @@ class _ShowProductSalePositionState extends State<ShowProductSalePosition> {
       if (productSalePositionSnapshot != null &&
           productSalePositionSnapshot.value != null) {
 
-        if(saleByDate[day+month+year] != null)
-          saleByDate[day+month+year] = saleByDate[day+month+year]
+        if(stockOutwardByDate[day+month+year] != null)
+          stockOutwardByDate[day+month+year] = stockOutwardByDate[day+month+year]
               + double.parse(productSalePositionSnapshot.value.toString());
         else
-          saleByDate[day+month+year] = double.parse(productSalePositionSnapshot.value.toString());
+          stockOutwardByDate[day+month+year] = double.parse(productSalePositionSnapshot.value.toString());
 
         if(totalSaleForSelectedPeriodForProductCodeAtTerminal[terminal]!= null){
           totalSaleForSelectedPeriodForProductCodeAtTerminal[terminal] = {
@@ -405,7 +406,7 @@ class _ShowProductSalePositionState extends State<ShowProductSalePosition> {
 
         print('Sale Position Retrieved For All Dates');
         setState(() {
-            print(saleByDate);
+            print(stockOutwardByDate);
         });
       }
     });
@@ -610,7 +611,7 @@ class _ShowProductSalePositionState extends State<ShowProductSalePosition> {
                         retrievingSalePosition = true;
                         terminalSalePosition = Map<String, double>();
                         productSalePosition = Map<String, double>();
-                        saleByDate = {};
+                        stockOutwardByDate = {};
 
                         if(productCodes.length != 0)
                           {

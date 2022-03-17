@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
 import 'package:kiranawala_admin/pages/select-brand-no-return.dart';
 import 'package:kiranawala_admin/pages/select-products.dart';
 import 'package:kiranawala_admin/pages/select-store-no-return.dart';
@@ -74,7 +75,7 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
           {
             return RaisedButton(
               onPressed: (){
-                if(saleByDate.length != 0 )
+                if(stockOutwardByDate.length != 0 )
                 Navigator.of(context).push<dynamic>(
                     MaterialPageRoute<dynamic>(
                         builder:(BuildContext context){
@@ -204,7 +205,7 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
     Navigator.of(context).pop();
     Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(builder: (BuildContext context) {
-          return ProductLookUp ();
+          return SelectProducts();
         }));
   }
 
@@ -212,21 +213,26 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedStore = 'KIRANAWALA_STORE_11';
+    storeTerminalMap[selectedStore] = ['POS_11','POS_2'];
+    print(selectedStore);
+    print(storeTerminalMap[selectedStore]);
+    print(barCodeSearchResultsMap);
   }
 
   void getProductSalePositionForDateForProductCode(String productCode, String terminal, String year, String month, String day){
     FirebaseDatabase
         .instance
         .reference()
-        .child('storeTerminals')
-        .child(terminal)
-        .child('sales')
+        .child('stores')
+        .child(selectedStore)
+        .child('products')
+        .child(productCode)
+        .child('stockOutwards')
         .child(year)
         .child(month)
         .child(day)
-        .child('productSalePosition')
-        .child(productCode)
-        .child('salePosition')
+        .child('stockOutwardTillDate')
         .once()
         .then((productSalePositionSnapshot) {
       if (productSalePositionSnapshot != null &&
@@ -352,7 +358,7 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
 //      productName = value.productName;
       productCodes.add(value.productID.toString());
     });
-//    print(productCodes);
+    print(productCodes);
 
     if(retrievingSalePosition)
       {
@@ -573,7 +579,7 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
 
                         terminalSalePosition = Map<String, double>();
                         productSalePosition = Map<String, double>();
-                        saleByDate = {};
+                        stockOutwardByDate = {};
 
                         if(productCodes.length != 0)
                           {
@@ -587,19 +593,19 @@ class _ShowBrandSalePositionState extends State<ShowBrandSalePosition> {
 
                             for(int i = 0; i < endDateAsDateTime.difference(startDateAsDateTime).inDays + 1; ++i)
                             {
-//                              print(startDateAsDateTime.add(Duration(days:i)).toString());
+                              print(startDateAsDateTime.add(Duration(days:i)).toString());
                               var dateAsString_ddMMyyyy = DateFormat('ddMMyyyy').format(startDateAsDateTime.add(Duration(days:i)));
-//                              print(dateAsString_ddMMyyyy);
+                              print(dateAsString_ddMMyyyy);
                               var year = dateAsString_ddMMyyyy.substring(4,8);
                               var month = dateAsString_ddMMyyyy.substring(2,4);
                               var day = dateAsString_ddMMyyyy.substring(0,2);
                               storeTerminalMap[selectedStore].forEach((terminalElement) {
-//                                print(terminalElement);
+                                print(terminalElement);
                                 getProductSalePositionForDateForProductCodes(productCodes, terminalElement, year, month, day);
                               });
-//                              print('year:' + year);
-//                              print('month:' + month);
-//                              print('day:' + day);
+                              print('year:' + year);
+                              print('month:' + month);
+                              print('day:' + day);
                             }
                           }
 

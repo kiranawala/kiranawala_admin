@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kiranawala_admin/pages/show-product-sale.dart';
-import '../main.dart';
+import 'package:kiranawala_admin/pages/show-product-sale-single-store.dart';
+import 'check-if-admin.dart';
+import 'show-admin-home-page.dart';
 
 class SelectStoreNoReturn extends StatefulWidget {
   @override
@@ -14,11 +15,15 @@ class _SelectStoreNoReturnState extends State<SelectStoreNoReturn> {
     return
       Scaffold(appBar:
       AppBar(
-        title:getTextWidget('SELECT STORE', 20.0, Colors.white),
+        title:Text('SELECT STORE',
+            style:TextStyle(
+              fontSize:20.0,
+              color:Colors.white
+            ),
+        ),
       ),
           body:Column(
               children:<Widget>[
-
                 Expanded(
                   flex:2,
                   child: TextField(
@@ -58,7 +63,6 @@ class _SelectStoreNoReturnState extends State<SelectStoreNoReturn> {
                 Expanded(
                   flex:20,
                   child: Container(
-                    // decoration: BoxDecoration(color: Colors.purple),
                     child: ListView.builder(
                       itemCount:storeSearchResults.length,
                       itemBuilder: (BuildContext context, int index){
@@ -82,7 +86,7 @@ class _SelectStoreNoReturnState extends State<SelectStoreNoReturn> {
                               Navigator.of(context).push<dynamic>(
                                 MaterialPageRoute<dynamic>(
                                   builder: (BuildContext context){
-                                    return ShowProductSalePosition();
+                                    return ShowProductSalePositionSingleStore();
                                   }
                                 )
                               );
@@ -94,25 +98,6 @@ class _SelectStoreNoReturnState extends State<SelectStoreNoReturn> {
                   ),
                 )
               ]
-            //  DropdownButton(
-            //     hint: Text('Select Brand'), // Not necessary for Option 1
-            //     value: selectedBrand,
-            //     onChanged: (newValue) {
-            //       setState(() {
-            //         selectedBrand = newValue;
-            //       });
-            //     },
-            //     underline: Container(
-            //             height: 2,
-            //             color: Colors.deepPurpleAccent,
-            //           ),
-            //     items: brands.map((Brand brand) {
-            //       return DropdownMenuItem(
-            //         child: new Text(brand.brandName),
-            //         value: brand,
-            //       );
-            //     }).toList(),
-            //   ),
           )
       );  }
 }

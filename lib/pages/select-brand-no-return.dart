@@ -1,6 +1,9 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:kiranawala_admin/pages/sale-position-between-dates/sale-position-show-brand-sale-single-store.dart';
 import 'package:kiranawala_admin/pages/show-brand-sale.dart';
 import 'package:kiranawala_admin/pages/show-home-page.dart';
+import 'check-if-admin.dart';
 import 'show-sale-position-home.dart';
 
 class SelectProductBrand extends StatefulWidget {
@@ -13,7 +16,7 @@ class _SelectProductBrandState extends State<SelectProductBrand> {
   @override
   void initState() {
     // TODO: implement initState
-      brandSearchResults = brands;
+      brandSearchResults = productBrands;
   }
   @override
   Widget build(BuildContext context) {
@@ -89,12 +92,12 @@ class _SelectProductBrandState extends State<SelectProductBrand> {
                           )
                       ),
                       onChanged: (value){
-//                        print(value);
+                        print(value);
                         if(value.isNotEmpty)
                         {
                           brandSearchResults = [];
-                          brands.forEach((brand){
-                            if(brand.brandName.toLowerCase().contains(value.toLowerCase()))
+                          productBrands.forEach((brand){
+                            if(brand.toLowerCase().contains(value.toLowerCase()))
                             {
                               brandSearchResults.add(brand);
                             }
@@ -117,7 +120,7 @@ class _SelectProductBrandState extends State<SelectProductBrand> {
                             padding: const EdgeInsets.all(2.0),
                             child: FlatButton(
                               color:Colors.blue,
-                              child: Text(brandSearchResults[index].brandName,
+                              child: Text(brandSearchResults[index],
                                   style:TextStyle(
                                       fontFamily: 'Montserrat',
                                       fontSize:24.0,
@@ -125,24 +128,95 @@ class _SelectProductBrandState extends State<SelectProductBrand> {
                                       color:Colors.white
                                   )),
                               onPressed: (){
-                                brandName = brandSearchResults[index].brandName;
+                                brandName = brandSearchResults[index];
+                                print(brandName);
+
+
                                 barCodeSearchResultsMap = Map<int, ProductBasicDetails>();
                                 barCodeSearchResults = List<ProductBasicDetails>();
-                                fullProductMap.forEach((key, value) {
-                                  if(value.productBrand == brandName){
-                                    barCodeSearchResultsMap[key] = value;
-                                    barCodeSearchResults.add(value);
-                                  }
-                                });
-                                Navigator.of(context).pop();
-                                Navigator.of(context).push<dynamic>(
-                                  MaterialPageRoute<dynamic>(
-                                    builder: (BuildContext context){
-                                      return ShowBrandSalePosition();
+
+//                                  setState(() {
+//                                    searchingBarCode = true;
+//                                    barCodeSearchResults = List<ProductBasicDetails>();
+//                                    barCodeSearchResultsMap = Map<int, ProductBasicDetails>();
+//                                  });
+
+                                  FirebaseDatabase.instance
+                                      .reference()
+                                      .child('stores')
+                                      .child('KIRANAWALA_STORE_11')
+                                      .child('products')
+                                      .orderByChild('brand')
+                                      .equalTo(brandName)
+                                      .once()
+                                      .then((DataSnapshot snapshot) {
+                                    print(snapshot.value);
+                                    if (snapshot != null && snapshot.value != null) {
+                                      Map<dynamic, dynamic> productDetailsMap = snapshot.value;
+                                      if (productDetailsMap.length == 1) {
+                                        print(productDetailsMap.length);
+                                        productDetailsMap.forEach((dynamic code, dynamic product) {
+
+                                          var productBasicDetails = new ProductBasicDetails(
+                                              product['title'].toString(),
+                                              double.parse(product['price'].toString()),
+                                              int.parse(product['productcode'].toString()),
+                                              product['barcode'].toString(),
+                                              product['imageurl'].toString(),
+                                              product['category'].toString(),
+                                              product['brand'].toString(),
+                                              (product['productStatus'] != null)
+                                                  ? product['productStatus']
+                                                  : 'INACTIVE',
+                                              (product['productParent'] != null)
+                                                  ? product['productParent']
+                                                  : 'N/A',
+                                              (product['productCreationTimeStamp'] != null)
+                                                  ? product['productCreationTimeStamp']
+                                                  : 'N/A'
+                                          );
+
+                                          barCodeSearchResultsMap[int.parse(code.toString())] = productBasicDetails;
+                                        });
+                                        print(barCodeSearchResultsMap);
+                                      } else if (productDetailsMap.length > 1) {
+                                        productDetailsMap.forEach((dynamic code, dynamic product) {
+
+                                          var productBasicDetails = new ProductBasicDetails(
+                                              product['title'].toString(),
+                                              double.parse(product['price'].toString()),
+                                              int.parse(product['productcode'].toString()),
+                                              product['barcode'].toString(),
+                                              product['imageurl'].toString(),
+                                              product['category'].toString(),
+                                              product['brand'].toString(),
+                                              (product['productStatus'] != null)
+                                                  ? product['productStatus']
+                                                  : 'INACTIVE',
+                                              (product['productParent'] != null)
+                                                  ? product['productParent']
+                                                  : 'N/A',
+                                              (product['productCreationTimeStamp'] != null)
+                                                  ? product['productCreationTimeStamp']
+                                                  : 'N/A'
+                                          );
+
+                                          barCodeSearchResultsMap[int.parse(code.toString())] = productBasicDetails;
+                                        });
+
+                                        print(barCodeSearchResultsMap);
+                                      }
                                     }
-                                  )
-                                );
-                              },
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).push<dynamic>(
+                                        MaterialPageRoute<dynamic>(
+                                            builder: (BuildContext context){
+                                              return ShowBrandSalePositionSingleStore();
+                                            }
+                                        )
+                                    );
+                                  });
+                                },
                             ),
                           );
                         },

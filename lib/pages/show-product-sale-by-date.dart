@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
 import 'show-sale-position-home.dart';
 class ShowProductSaleByDate extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _ShowProductSaleByDateState extends State<ShowProductSaleByDate> {
   void getSaleByDateWidget()
   {
     saleByDateWidget = [];
-        saleByDate.forEach((String date, double salePosition){
+    stockOutwardByDate.forEach((String date, double salePosition){
           saleByDateWidget.add(
             Container(
               decoration: BoxDecoration(

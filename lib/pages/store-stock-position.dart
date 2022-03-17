@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
 
 class ProductBasicDetails {
   String productName;
@@ -111,6 +112,12 @@ class ProductStockOutwardDetails {
   }
 }
 
+
+ProductBasicDetails stockInProductToUpdate;
+ProductStockInwardDetails stockInwardDetailsProductToUpdate;
+
+Map<int, ProductStockInwardDetails> stockInwardDetailsMap = new Map();
+List<ProductStockInwardDetails> stockInwardDetailsList = new List();
 List<ProductBasicDetails> barCodeSearchResults = new List();
 String barCodeToSearch = '';
 
@@ -131,6 +138,8 @@ Map<String, dynamic> productStockOutwardHistoryMap = Map<String, dynamic>();
 List<dynamic> productStockOutwardHistory = List<dynamic>();
 
 String storeTerminals = 'POS_7';
+String inventoryNode = 'KIRANAWALA_STORE7';
+String productNode = 'KIRANAWALA_STORE_7';
 int productCount = 0;
 List<int> productCodes = List();
 int productStockOutwardsProcessed = 0;
@@ -160,8 +169,8 @@ class _StoreStockPositionState extends State<StoreStockPosition> {
   double productStockPosition = 0;
   int productId = 0;
   bool retrievingProductsNode = false;
-  String storeInventoryNode = 'KIRANAWALA_STORE_7';
-  String storeProductNode = 'KIRANAWALA_MASTER';
+  String storeInventoryNode = 'KIRANAWALA_STORE_2';
+  String storeProductNode = 'KIRANAWALA_STORE_2';
 
   void getProductRecentStockInwardDetails(int productCode){
     FirebaseDatabase.instance
@@ -249,42 +258,32 @@ class _StoreStockPositionState extends State<StoreStockPosition> {
     FirebaseDatabase.instance
         .reference()
         .child('stores')
-        .child(storeInventoryNode)
+        .child(productNode)
         .child('products')
-        .child(productCode)
-        .child('basicDetails')
         .once()
-        .then((DataSnapshot snapshot) {
-      if (snapshot != null && snapshot.value != null) {
-              productMap[int.parse(snapshot.value['productCode'].toString())] = ProductBasicDetails(
-                snapshot.value['productName'],
-                double.parse(snapshot.value['productPrice'].toString()),
-                int.parse(snapshot.value['productCode'].toString()),
-                snapshot.value['productBarcode'].toString(),
-                (snapshot.value['productImageURL'] != null)
-                    ? snapshot.value['productImageURL']
+        .then((productsSnapshot) {
+      if(productsSnapshot != null && productsSnapshot.value != null) {
+        productsSnapshot.value.forEach((dynamic productCode,
+            dynamic productSnapshot) {
+//          print(productCode);
+          if (productSnapshot['title'] != null &&
+              productSnapshot['title'] != '' && productCode != null &&
+              productCode != '') {
+            productMap[int.parse(productCode.toString())] = ProductBasicDetails(
+                productSnapshot['title'],
+                double.parse(productSnapshot['price'].toString()),
+                int.parse(productCode.toString()),
+                productSnapshot['barcode'].toString(),
+                (productSnapshot['imageurl'] != null)
+                    ? productSnapshot['imageurl']
                     : 'https://firebasestorage.googleapis.com/v0/b/oshop-21421.appspot.com/o/organization%2Fkiranawala.jpg?alt=media&token=07614d66-6dbc-4e09-a2c5-7db7bf4efdad',
-                snapshot.value['productCategory'],
-                snapshot.value['productBrand'],
-              );
-        }
-      else
-        {
-          print('Product Not Found:'+ productCode);
-        }
-      productsRetrieved = productsRetrieved + 1;
-      if(productsRetrieved == productCodes.length) {
-
-        print('getProductDetails:FINISHED');
-        print('Product Details Retrieved:' + productsRetrieved.toString());
-        print('productMap:' + productMap.length.toString());
-
-        setState(() {
-          retrievingProductDetails = false;
+                productSnapshot['category'],
+                productSnapshot['brand'],
+            );
+          }
         });
       }
-
-    });
+            });
   }
   @override
   void initState() {

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:kiranawala_admin/main.dart';
-import 'package:kiranawala_admin/pages/multi-store-stock-position.dart';
-import 'package:kiranawala_admin/pages/reset-store.dart';
+import 'package:kiranawala_admin/pages/check-if-admin.dart';
+import 'package:kiranawala_admin/pages/sale-position-between-dates/sale-position-show-category-sale.dart';
 import 'package:kiranawala_admin/pages/search-barcode.dart';
 import 'package:kiranawala_admin/pages/select-store.dart';
-import 'package:kiranawala_admin/pages/show-product-sale.dart';
-import 'package:kiranawala_admin/pages/store-stock-position.dart';
-//import 'package:kiranawala_admin/pages/store-stock-position.dart';
+import 'package:kiranawala_admin/pages/show-admin-home-page.dart';
+import 'package:kiranawala_admin/pages/show-brand-sale-single-store.dart';
+import 'package:kiranawala_admin/pages/show-product-sale-single-store.dart';
+import 'package:kiranawala_admin/pages/show-product-stock-position-single-store.dart';
 
 import 'show-brand-sale.dart';
 import 'show-home-page.dart';
@@ -20,37 +21,37 @@ String startDate = DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(d
 String endDate = DateFormat('dd-MM-yyyy').format(DateTime.now().add(Duration(days:-1)));
 DateTime startDateAsDateTime = DateTime.now().add(Duration(days:-1));
 DateTime endDateAsDateTime = DateTime.now().add(Duration(days:-1));
-Map<String, double> saleByDate = Map<String, double>();
-Map<String, double> terminalSalePosition = Map<String, double>();
-Map<String,double> productSalePosition = Map<String, double>();
-String productName = 'SELECT PRODUCT';
-String brandName = 'SELECT BRAND';
-String categoryName = 'SELECT CATEGORY';
-Map<dynamic, dynamic> productSalePositionByDateAtTerminal = Map<dynamic, dynamic>();
+//Map<String, double> saleByDate = Map<String, double>();
+//Map<String, double> terminalSalePosition = Map<String, double>();
+//Map<String,double> productSalePosition = Map<String, double>();
+//String productName = 'SELECT PRODUCT';
+//String brandName = 'SELECT BRAND';
+//String categoryName = 'SELECT CATEGORY';
+//Map<dynamic, dynamic> productSalePositionByDateAtTerminal = Map<dynamic, dynamic>();
 
-List<Brand> brandSearchResults = List<Brand>();
-List<Category> categorySearchResults = List<Category>();
+//List<Brand> brandSearchResults = List<Brand>();
+//List<Category> categorySearchResults = List<Category>();
+//
+//bool retrievingProductDetails = false;
 
-bool retrievingProductDetails = false;
 
-
-class Brand {
-  const Brand(this.brandId, this.brandName);
-  final String brandId;
-  final String brandName;
-}
-
-class Category {
-  const Category(this.categoryId, this.categoryName);
-  final String categoryId;
-  final String categoryName;
-}
-
-List<Brand> brands = List<Brand>();
-List<Category> categories = List<Category>();
-
-bool retrievingBrands = false;
-bool retrievingCategories = false;
+//class Brand {
+//  const Brand(this.brandId, this.brandName);
+//  final String brandId;
+//  final String brandName;
+//}
+//
+//class Category {
+//  const Category(this.categoryId, this.categoryName);
+//  final String categoryId;
+//  final String categoryName;
+//}
+//
+//List<Brand> brands = List<Brand>();
+//List<Category> categories = List<Category>();
+//
+//bool retrievingBrands = false;
+//bool retrievingCategories = false;
 
 class ShowSalePositionHomePage extends StatefulWidget {
   @override
@@ -111,7 +112,7 @@ class _ShowSalePositionHomePageState extends State<ShowSalePositionHomePage> {
       {
         Map<dynamic, dynamic> categoryList = productCategoriesSnapshot.value;
         categoryList.forEach((dynamic key, dynamic value){
-          categories.add(Category(key.toString(),value['name'].toString()));
+          categories.add(Category(key,value['name'].toString()));
         });
 
         categories.sort((a,b){
@@ -197,7 +198,7 @@ class _ShowSalePositionHomePageState extends State<ShowSalePositionHomePage> {
                     color:Colors.blue,
                     onPressed: (){
                       Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder:(BuildContext context){
-                        return ShowProductSalePosition();
+                        return ShowProductStockPositionSingleStore();
                       }));
                     },
                     child:Center(child: getTextWidget('PRODUCT SALE POSITION', 20.0, Colors.white))
@@ -209,24 +210,24 @@ class _ShowSalePositionHomePageState extends State<ShowSalePositionHomePage> {
                     color:Colors.blue,
                     onPressed: (){
                       Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder:(BuildContext context){
-                        return ShowBrandSalePosition();
+                        return ShowBrandSalePositionSingleStore();
                       }));
                     },
                     child:Center(child: getTextWidget('BRAND SALE POSITION', 20.0, Colors.white))
                 ),
               ),
-//          Padding(
-//            padding: const EdgeInsets.all(8.0),
-//            child: RaisedButton(
-//                color:Colors.blue,
-//                onPressed: (){
-//                  Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder:(BuildContext context){
-//                    return ShowCategorySalePosition();
-//                  }));
-//                },
-//                child:Center(child: getTextWidget('CATEGORY SALE POSITION', 20.0, Colors.white))
-//            ),
-//          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RaisedButton(
+                color:Colors.blue,
+                onPressed: (){
+                  Navigator.of(context).push<dynamic>(MaterialPageRoute<dynamic>(builder:(BuildContext context){
+                    return ShowCategorySalePosition();
+                  }));
+                },
+                child:Center(child: getTextWidget('CATEGORY SALE POSITION', 20.0, Colors.white))
+            ),
+          ),
             ],
           ),
         ),
